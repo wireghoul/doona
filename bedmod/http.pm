@@ -34,6 +34,7 @@ sub getQuit{
 sub getLoginarray {
  my $this = shift;
  @Loginarray = (
+	"XAXAX / HTTP/1.0\r\n\r\n",
         "HEAD XAXAX HTTP/1.0\r\n\r\n",
 	"HEAD / XAXAX\r\n\r\n",
 	"GET XAXAX HTTP/1.0\r\n\r\n",
@@ -41,7 +42,8 @@ sub getLoginarray {
 	"POST XAXAX HTTP/1.0\r\n\r\n",
 	"POST / XAXAX\r\n\r\n",
         "GET /XAXAX\r\n\r\n",
-        "POST /XAXAX\r\n\r\n"
+        "POST /XAXAX\r\n\r\n",
+	"OPTIONS XAXAX HTTP/1.0",
  );
  return (@Loginarray);
 }
@@ -65,8 +67,20 @@ sub getCommandarray {
 		"Authorization: XAXAX : foo\r\n\r\n",
 		"Authorization: foo : XAXAX\r\n\r\n",
 		"If-Modified-Since: XAXAX\r\n\r\n",
+		"If-Match: XAXAX\r\n\r\n",
+		"If-None-Match: XAXAX\r\n\r\n",
+		"If-Range: XAXAX\r\n\r\n",
+		"If-Unmodified-Since: XAXAX\r\n\r\n",
+		"Max-Forwards: XAXAX\r\n\r\n",
+		"Proxy-Authorization: XAXAX\r\n\r\n",
 		"ChargeTo: XAXAX\r\n\r\n",
-		"Pragma: XAXAX\r\n\r\n"                
+		"Pragma: XAXAX\r\n\r\n",
+		"Expect: XAXAX\r\n\r\n",
+		"Range: XAXAX\r\n\r\n",
+		"Content-Length: XAXAX\r\n\r\n",
+		"Cookie: XAXAX\r\n\r\n",
+		"TE: XAXAX\r\n\r\n",
+		"Upgrade: XAXAX\r\n\r\n",
 	);
 	return(@cmdArray);
 }
