@@ -123,6 +123,7 @@ sub getCommandarray {
 		"SITE IDLE XAXAX\r\n",
 		"SITE CHMOD XAXAX\r\n",
 		"SITE UMASK XAXAX\r\n",
+		"SYST XAXAX\r\n",
 		"TYPE XAXAX\r\n",
 		"TYPE L\r\n",
 		"XRMD XAXAX\r\n",
