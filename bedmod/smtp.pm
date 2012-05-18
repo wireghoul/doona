@@ -51,6 +51,7 @@ sub getCommandarray {
 	@cmdArray = (
 		"EXPN XAXAX\r\n",
 		"EHLO XAXAX\r\n",
+		"HELO XAXAX\r\n",
 		"MAIL FROM: XAXAX\r\n",
 		"MAIL FROM: <$this->{mail}> XAXAX\r\n",
 		"MAIL FROM: <$this->{mail}> RET=XAXAX\r\n",
