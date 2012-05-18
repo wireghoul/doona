@@ -49,7 +49,8 @@ sub getCommandarray {
 	# the XAXAX will be replaced with the buffer overflow / format string
 	# place every command in this array you want to test
 	@cmdArray = (
-		"XAXAX\n"
+		"XAXAX\r\n",
+		"\@XAXAX\r\n",
 	);
 	return(@cmdArray);
 }
