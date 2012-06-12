@@ -115,12 +115,15 @@ exit(0);
 # this function tests each of the two arrays ( buffer overflow and format string )
 sub testThis(){
         @testArray = @_;
-        if ( $module->{proto} eq "udp" ){  $socktype = SOCK_DGRAM;
-        } else {                           $socktype = SOCK_STREAM;
+        if ( $module->{proto} eq "udp" ){  
+		$socktype = SOCK_DGRAM;
+        } else {
+                $socktype = SOCK_STREAM;
         }
 
         $count = 0;
         $quit = $module->getQuit;
+        my $total = scalar(@cmdArray);
         foreach $cmd (@cmdArray){
                 $count++;
 
@@ -128,7 +131,7 @@ sub testThis(){
                 $cmd2 =~ s/\n|\r|[\00-\33]//ig;                              # remove \r and \n for nice displaying
                 $cmd2 = substr($cmd2, 0, 30);
 
-                $a = system("echo -n \"\t\ttesting: $count\t$cmd2\t\"");     # crude hack, i didnt want to use Term::ProgressBar...
+                $a = system("echo -n \"\t\ttesting: $count/$total\t$cmd2\t\"");     # crude hack, i didnt want to use Term::ProgressBar...
                 foreach $LS (@testArray){
                         $a = system("echo -n .");
 
