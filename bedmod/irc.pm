@@ -87,6 +87,7 @@ sub getCommandarray {
 		"PRIVMSG XAXAX bar\r\n",
 		"NOTICE foo XAXAX\r\n",
 		"NOTICE XAXAX bar\r\n",
+		"TOPIC XAXAX foo\r\n",
 		"WHO XAXAX\r\n",
 		"WHOIS XAXAX\r\n",
 		"WHOWAS XAXAX\r\n",
