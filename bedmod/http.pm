@@ -36,10 +36,13 @@ sub getLoginarray {
  @Loginarray = (
 	"XAXAX / HTTP/1.0\r\n\r\n",
         "HEAD XAXAX HTTP/1.0\r\n\r\n",
+	"HEAD /XAXAX HTTP/1.0\r\n\r\n",
 	"HEAD / XAXAX\r\n\r\n",
 	"GET XAXAX HTTP/1.0\r\n\r\n",
+        "GET /XAXAX HTTP/1.0\r\n\r\n",
 	"GET / XAXAX\r\n\r\n",
 	"POST XAXAX HTTP/1.0\r\n\r\n",
+        "POST /XAXAX HTTP/1.0\r\n\r\n",
 	"POST / XAXAX\r\n\r\n",
         "GET /XAXAX\r\n\r\n",
         "POST /XAXAX\r\n\r\n",
