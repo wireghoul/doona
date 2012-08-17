@@ -44,9 +44,16 @@ sub getLoginarray {
 	"POST XAXAX HTTP/1.0\r\n\r\n",
         "POST /XAXAX HTTP/1.0\r\n\r\n",
 	"POST / XAXAX\r\n\r\n",
+        "POST / HTTP/1.0\r\n\r\nXAXAX\r\n\r\n",
+	"POST / HTTP/1.0\r\nContent-length: 10\r\n\r\nXAXAX\r\n\r\n",
+	"POST / HTTP/1.0\r\nContent-Type: multipart/form-data; boundary=---XAXAX\r\n\r\n---XAXAX--\r\n\r\n",
+        "POST / HTTP/1.0\r\nContent-Type: multipart/form-data; boundary=---AAAAA\r\n\r\n---AAAAA\r\nContent-Disposition: form-data; name=\"XAXAX\"\r\n\r\ntest\r\n---AAAAA--\r\n\r\n",
+        "POST / HTTP/1.0\r\nContent-Type: multipart/form-data; boundary=---AAAAA\r\n\r\n---AAAAA\r\nContent-Disposition: form-data; name=\"test\"\r\n\r\nXAXAX\r\n---AAAAA--\r\n\r\n",
         "GET /XAXAX\r\n\r\n",
         "POST /XAXAX\r\n\r\n",
-	"OPTIONS XAXAX HTTP/1.0",
+	"OPTIONS XAXAX HTTP/1.0\r\n\r\n",
+	"OPTIONS /XAXAXHTTP/1.0\r\n\r\n",
+	"OPTIONS / XAXAX\r\n\r\n",
  );
  return (@Loginarray);
 }
