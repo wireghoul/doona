@@ -16,8 +16,11 @@ sub init{
 
 	$this->{proto}="tcp";
 	
-        if ($special_cfg{'p'} eq "") { $this->{port}='80'; }              
-          else { $this->{port} = $special_cfg{'p'}; } 
+  if ($special_cfg{'p'} eq "") {
+    $this->{port}='80'; 
+  } else { 
+    $this->{port} = $special_cfg{'p'};
+  }
 
  	$iaddr = inet_aton($this->{target})             || die "Unknown host: $host\n";
 	$paddr = sockaddr_in($this->{port}, $iaddr)     || die "getprotobyname: $!\n";
@@ -35,22 +38,22 @@ sub getLoginarray {
  my $this = shift;
  @Loginarray = (
 	"XAXAX / HTTP/1.0\r\n\r\n",
-        "HEAD XAXAX HTTP/1.0\r\n\r\n",
-	"HEAD /XAXAX HTTP/1.0\r\n\r\n",
-	"HEAD / XAXAX\r\n\r\n",
-	"GET XAXAX HTTP/1.0\r\n\r\n",
-        "GET /XAXAX HTTP/1.0\r\n\r\n",
-	"GET / XAXAX\r\n\r\n",
-	"POST XAXAX HTTP/1.0\r\n\r\n",
-        "POST /XAXAX HTTP/1.0\r\n\r\n",
-	"POST / XAXAX\r\n\r\n",
-        "POST / HTTP/1.0\r\n\r\nXAXAX\r\n\r\n",
-	"POST / HTTP/1.0\r\nContent-length: 10\r\n\r\nXAXAX\r\n\r\n",
-	"POST / HTTP/1.0\r\nContent-Type: multipart/form-data; boundary=---XAXAX\r\n\r\n---XAXAX--\r\n\r\n",
-        "POST / HTTP/1.0\r\nContent-Type: multipart/form-data; boundary=---AAAAA\r\n\r\n---AAAAA\r\nContent-Disposition: form-data; name=\"XAXAX\"\r\n\r\ntest\r\n---AAAAA--\r\n\r\n",
-        "POST / HTTP/1.0\r\nContent-Type: multipart/form-data; boundary=---AAAAA\r\n\r\n---AAAAA\r\nContent-Disposition: form-data; name=\"test\"\r\n\r\nXAXAX\r\n---AAAAA--\r\n\r\n",
-        "GET /XAXAX\r\n\r\n",
-        "POST /XAXAX\r\n\r\n",
+  "HEAD XAXAX HTTP/1.0\r\n\r\n",
+  "HEAD /XAXAX HTTP/1.0\r\n\r\n",
+  "HEAD / XAXAX\r\n\r\n",
+  "GET XAXAX HTTP/1.0\r\n\r\n",
+  "GET /XAXAX HTTP/1.0\r\n\r\n",
+  "GET / XAXAX\r\n\r\n",
+  "GET /XAXAX\r\n\r\n",
+  "POST XAXAX HTTP/1.0\r\n\r\n",
+  "POST /XAXAX HTTP/1.0\r\n\r\n",
+  "POST / XAXAX\r\n\r\n",
+  "POST /XAXAX\r\n\r\n",
+  "POST / HTTP/1.0\r\n\r\nXAXAX\r\n\r\n",
+  "POST / HTTP/1.0\r\nContent-length: 10\r\n\r\nXAXAX\r\n\r\n",
+  "POST / HTTP/1.0\r\nContent-Type: multipart/form-data; boundary=---XAXAX\r\n\r\n---XAXAX--\r\n\r\n",
+  "POST / HTTP/1.0\r\nContent-Type: multipart/form-data; boundary=---AAAAA\r\n\r\n---AAAAA\r\nContent-Disposition: form-data; name=\"XAXAX\"\r\n\r\ntest\r\n---AAAAA--\r\n\r\n",
+  "POST / HTTP/1.0\r\nContent-Type: multipart/form-data; boundary=---AAAAA\r\n\r\n---AAAAA\r\nContent-Disposition: form-data; name=\"test\"\r\n\r\nXAXAX\r\n---AAAAA--\r\n\r\n",
 	"OPTIONS XAXAX HTTP/1.0\r\n\r\n",
 	"OPTIONS /XAXAXHTTP/1.0\r\n\r\n",
 	"OPTIONS / XAXAX\r\n\r\n",
@@ -73,7 +76,7 @@ sub getCommandarray {
 		"Authorization: XAXAX\r\n\r\n",
 		"From: XAXAX\r\n\r\n",
 		"Charge-To: XAXAX\r\n\r\n",
-                "Authorization: XAXAX",
+    "Authorization: XAXAX",
 		"Authorization: XAXAX : foo\r\n\r\n",
 		"Authorization: foo : XAXAX\r\n\r\n",
 		"If-Modified-Since: XAXAX\r\n\r\n",

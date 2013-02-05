@@ -1,7 +1,7 @@
-package bedmod::tftp;
+package bedmod::whois;
 use Socket;
 
-# lame tftp plugin :)
+# lame whois plugin :)
 
 # \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 # create a new instance of this object
@@ -18,9 +18,9 @@ sub init{
     %special_cfg=@_;
 
     # Set protocol tcp/udp
-    $this->{proto} = "udp"; 
+    $this->{proto} = "tcp"; 
 
-    if ($special_cfg{'p'} eq "") { $this->{port}='69'; }
+    if ($special_cfg{'p'} eq "") { $this->{port}='43'; }
       else { $this->{port} = $special_cfg{'p'}; }
     $this->{sport} = 0;
     $this->{vrfy} = "";
@@ -49,13 +49,12 @@ sub getCommandarray {
 	# the XAXAX will be replaced with the buffer overflow / format string
 	# place every command in this array you want to test
 	@cmdArray = (
-		"XAXAX", # B0F
-		"\x00\x01XAXAX\x00netascii\x00", #RRQ
-		"\x00\x01XAXAX\x00octet\x000", #RRQ
-		"\x00\x01XAXAX\x00mail\x00", #RRQ
-		"\x00\x01fuzz\x00XAXAX\x00", #RRQ
-		"\x00\x02\x41\x00XAXAX\x00", #WRQ
-		"\x00\x03\x41\x00XAXAX\x00", #DATA?
+		"XAXAX\r\n",
+		"?XAXAX\r\n",
+		"!XAXAX\r\n",
+		".XAXAX\r\n",
+		"XAXAX...\r\n",
+		"*XAXAX\r\n",
 	);
 	return(@cmdArray);
 }
