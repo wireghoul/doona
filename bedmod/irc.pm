@@ -28,17 +28,17 @@ sub getQuit{
 sub getLoginarray {
  my $this = shift;
  @Loginarray = (
-  "USER XAXAX bb cc :dd\r\n",
+  "USER XAXAX 0 cc :dd\r\n",
   "USER aa XAXAX cc :dd\r\n",
-	"USER aa bb XAXAX :dd\r\n",
-	"USER aa bb cc :XAXAX\r\n",
-  "USER aa bb cc XAXAX\r\n",
-  "USER aa bb cc dd XAXAX\r\n", # realname may contain spaces
-	"USER aa bb cc :dd\r\nNICK XAXAX\r\n",
+	"USER aa 0 XAXAX :dd\r\n",
+	"USER aa 0 cc :XAXAX\r\n",
+  "USER aa 0 cc XAXAX\r\n",
+  "USER aa 0 cc :dd XAXAX\r\n", # realname may contain spaces
+	"USER aa 0 cc :dd\r\nNICK XAXAX\r\n",
   "NICK XAXAX\r\n",
   "PASS XAXAX\r\n",
   "PASS aa\r\nPASS XAXAX\r\n",
-  "PASS XAXAX\r\nUSER aa bb cc :dd\r\n",
+  "PASS XAXAX\r\nUSER aa 0 cc :dd\r\n",
   "PASS XAXAX\r\nNICK XAXAX\r\nUSER XAXAX XAXAX XAXAX XAXAX\r\n",
   "PASS XAXAX\r\nSERVER aa bb cc\r\n",
   "SERVER XAXAX bb cc\r\n",
