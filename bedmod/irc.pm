@@ -33,6 +33,7 @@ sub getLoginarray {
 	"USER aa bb XAXAX :dd\r\n",
 	"USER aa bb cc :XAXAX\r\n",
   "USER aa bb cc XAXAX\r\n",
+  "USER aa bb cc dd XAXAX\r\n", # realname may contain spaces
 	"USER aa bb cc :dd\r\nNICK XAXAX\r\n",
   "NICK XAXAX\r\n",
   "PASS XAXAX\r\n",
