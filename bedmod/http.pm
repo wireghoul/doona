@@ -65,6 +65,7 @@ sub getCommandarray {
 	my $this = shift;
 
 	@cmdArray = (
+    "XAXAX: XAXAX\r\n\r\n",
 		"User-Agent: XAXAX\r\n\r\n", 
 		"Host: XAXAX\r\n\r\n", 
 		"Accept: XAXAX\r\n\r\n",
