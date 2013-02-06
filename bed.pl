@@ -11,7 +11,7 @@ use Socket;
 my $SOCKET = "";
 
 # which plugins do we support? insert your plugin ( dummy ) here...
-@plugins = ( "ftp", "smtp", "pop", "http", "irc", "imap", "pjl", "lpd", "finger", "socks4", "socks5" );
+@plugins = ( "ftp", "smtp", "pop", "http", "irc", "imap", "pjl", "lpd", "finger", "socks4", "socks5", 'tftp', 'rtsp');
 
 
 # what we test...
