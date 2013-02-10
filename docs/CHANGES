@@ -1,3 +1,12 @@
+[ 0.5.1 ]
+Contributions by Wireghoul
+- added rtsp module
+- added tftp module
+- added more irc fuzz cases
+- added more finger fuzz cases
+- added more http fuzz cases
+- added progress indicator count to fuzz cases
+
 [ 0.5 ]
 - fixed port for smtp module
 - added a check for some "random" numbers

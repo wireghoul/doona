@@ -26,7 +26,7 @@ my @largenumbers = ("255", "256", "257", "65535", "65536", "65537", "16777215", 
 my @miscstrings = ("/", "%0xa", "+", "<", ">", "%". "-", "+", "*", ".", ":", "&", "%u000", "\r", "\r\n", "\n");
 
 
-print ("\n BED 0.5 by mjm ( www.codito.de ) & eric ( www.snake-basket.de )\n\n");
+print ("\n BED 0.5.1 by mjm ( www.codito.de ) & eric ( www.snake-basket.de )\n\n");
 
 # get the parameters we need for every test
 getopts('s:t:o:p:u:v:w:x:');
