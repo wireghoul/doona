@@ -5,7 +5,7 @@
 # under certain conditions. See docs/GPL.txt for details.
 #
 # written by mjm ( www.codito.de ) and snakebyte ( www.snake-basket.de )
-#
+# updated by wireghoul ( www.justanotherhacker.com )
 use Getopt::Std;
 use Socket;
 my $SOCKET = "";
