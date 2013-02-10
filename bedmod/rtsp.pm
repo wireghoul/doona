@@ -38,6 +38,7 @@ sub getLoginarray {
  my $this = shift;
  @Loginarray = (
 	"XAXAX / RTSP/1.0\r\nCSeq: 1\r\n\r\n",
+  "XAXAX rtsp://localhost/file.mpg\r\nCSeq: 1\r\n\r\n",
 	"OPTIONS XAXAX RTSP/1.0\r\nCSeq: 1\r\n\r\n",
 	"OPTIONS /XAXAX RTSP/1.0\r\nCSeq: 1\r\n\r\n",
 	"OPTIONS * XAXAX\r\nCSeq: 1\r\n\r\n",
@@ -47,6 +48,38 @@ sub getLoginarray {
   "DESCRIBE XAXAX://localhost/file.mpg RTSP/1.0\r\nCSeq: 1\r\n\r\n",
   "DESCRIBE rtsp://XAXAX/file.mpg RTSP/1.0\r\nCSeq: 1\r\n\r\n",
   "DESCRIBE rtsp://localhost/XAXAX RTSP/1.0\r\nCSeq: 1\r\n\r\n",
+  "SETUP XAXAX RTSP/1.0\r\nCSeq: 1\r\n\r\n",
+  "SETUP XAXAX://localhost/file.mpg RTSP/1.0\r\nCSeq: 1\r\n\r\n",
+  "SETUP rtsp://XAXAX/file.mpg RTSP/1.0\r\nCSeq: 1\r\n\r\n",
+  "SETUP rtsp://localhost/XAXAX RTSP/1.0\r\nCSeq: 1\r\n\r\n",
+  "PLAY XAXAX RTSP/1.0\r\nCSeq: 1\r\n\r\n",
+  "PLAY XAXAX://localhost/file.mpg RTSP/1.0\r\nCSeq: 1\r\n\r\n",
+  "PLAY rtsp://XAXAX/file.mpg RTSP/1.0\r\nCSeq: 1\r\n\r\n",
+  "PLAY rtsp://localhost/XAXAX RTSP/1.0\r\nCSeq: 1\r\n\r\n",
+  "PAUSE XAXAX RTSP/1.0\r\nCSeq: 1\r\n\r\n",
+  "PAUSE XAXAX://localhost/file.mpg RTSP/1.0\r\nCSeq: 1\r\n\r\n",
+  "PAUSE rtsp://XAXAX/file.mpg RTSP/1.0\r\nCSeq: 1\r\n\r\n",
+  "PAUSE rtsp://localhost/XAXAX RTSP/1.0\r\nCSeq: 1\r\n\r\n",
+  "RECORD XAXAX RTSP/1.0\r\nCSeq: 1\r\n\r\n",
+  "RECORD XAXAX://localhost/file.mpg RTSP/1.0\r\nCSeq: 1\r\n\r\n",
+  "RECORD rtsp://XAXAX/file.mpg RTSP/1.0\r\nCSeq: 1\r\n\r\n",
+  "RECORD rtsp://localhost/XAXAX RTSP/1.0\r\nCSeq: 1\r\n\r\n",
+  "ANNOUNCE XAXAX RTSP/1.0\r\nCSeq: 1\r\n\r\n",
+  "ANNOUNCE XAXAX://localhost/file.mpg RTSP/1.0\r\nCSeq: 1\r\n\r\n",
+  "ANNOUNCE rtsp://XAXAX/file.mpg RTSP/1.0\r\nCSeq: 1\r\n\r\n",
+  "ANNOUNCE rtsp://localhost/XAXAX RTSP/1.0\r\nCSeq: 1\r\n\r\n",
+  "TEARDOWN XAXAX RTSP/1.0\r\nCSeq: 1\r\n\r\n",
+  "TEARDOWN XAXAX://localhost/file.mpg RTSP/1.0\r\nCSeq: 1\r\n\r\n",
+  "TEARDOWN rtsp://XAXAX/file.mpg RTSP/1.0\r\nCSeq: 1\r\n\r\n",
+  "TEARDOWN rtsp://localhost/XAXAX RTSP/1.0\r\nCSeq: 1\r\n\r\n",
+  "GET_PARAMETER XAXAX RTSP/1.0\r\nCSeq: 1\r\n\r\n",
+  "GET_PARAMETER XAXAX://localhost/file.mpg RTSP/1.0\r\nCSeq: 1\r\n\r\n",
+  "GET_PARAMETER rtsp://XAXAX/file.mpg RTSP/1.0\r\nCSeq: 1\r\n\r\n",
+  "GET_PARAMETER rtsp://localhost/XAXAX RTSP/1.0\r\nCSeq: 1\r\n\r\n",
+  "SET_PARAMETER XAXAX RTSP/1.0\r\nCSeq: 1\r\n\r\n",
+  "SET_PARAMETER XAXAX://localhost/file.mpg RTSP/1.0\r\nCSeq: 1\r\n\r\n",
+  "SET_PARAMETER rtsp://XAXAX/file.mpg RTSP/1.0\r\nCSeq: 1\r\n\r\n",
+  "SET_PARAMETER rtsp://localhost/XAXAX RTSP/1.0\r\nCSeq: 1\r\n\r\n",
  );
  return (@Loginarray);
 }
@@ -70,6 +103,7 @@ sub getCommandarray {
 		"Authorization: foo : XAXAX\r\n\r\n",
 		"If-Modified-Since: XAXAX\r\n\r\n",
 		"Range: XAXAX\r\n\r\n",
+    "Transport: XAXAX\r\n\r\n",
 	);
 	return(@cmdArray);
 }
