@@ -71,8 +71,10 @@ sub getQuit{
 sub getLoginarray {
  my $this = shift;
  @Loginarray = (
+  "XAXAX\r\n",
  	"USER XAXAX\r\n",
- 	"USER $this->{username}\r\nPASS XAXAX\r\n"
+ 	"USER $this->{username}\r\nPASS XAXAX\r\n",
+  "PASS XAXAX\r\n"
  );
  return (@Loginarray);
 }
