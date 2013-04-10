@@ -131,9 +131,9 @@ sub testThis(){
                 $cmd2 =~ s/\n|\r|[\00-\33]//ig;                              # remove \r and \n for nice displaying
                 $cmd2 = substr($cmd2, 0, 30);
 
-                $a = system("echo -n \"\t\ttesting: $count/$total\t$cmd2\t\"");     # crude hack, i didnt want to use Term::ProgressBar...
+                print "\t\ttesting: $count/$total\t$cmd2\t";
                 foreach $LS (@testArray){
-                        $a = system("echo -n .");
+                        print ".";
 
                         $command = $cmd;
                         $command =~ s/XAXAX/$LS/ig;                   # prepare the string
@@ -165,7 +165,7 @@ sub testThis(){
                                 $paddr = sockaddr_in($module->{port}, $iaddr)     || die "getprotobyname: $!\n";
                                 $proto = getprotobyname($module->{proto})         || die "getprotobyname: $!\n";
                                 socket(SOCKET, PF_INET, $socktype, $proto)        || die "socket: $!\n";
-                                connect(SOCKET, $paddr)                           || die "Problem (3) occured with -$count-$cmd2-\n";
+                                connect(SOCKET, $paddr)                           || die "Problem (3) occured with -$count- $cmd2-\n$command\n";
                                 close SOCKET;
                         }
 
