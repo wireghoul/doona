@@ -6,8 +6,8 @@ use Socket;
 
 sub new{
 	my $this = {};
-	$this->{username}     = undef; # specific for just this
-	$this->{password}     = undef; # module
+	$this->{username}     = 'anonymous'; # specific for just this
+	$this->{password}     = 'user@this.bed'; # module
 	bless $this;
 	return $this;
 }
@@ -24,20 +24,9 @@ sub init{
     if ($special_cfg{'p'} eq "") { $this->{port}='21'; }
       else { $this->{port} = $special_cfg{'p'}; }
 
-	if (( $special_cfg{'u'} eq "") || ( $special_cfg{'v'} eq "")){
-		 print qq~
- 	Parameters for the FTP plugin:
-
- 		-u <username>
- 		-v <password>
-
-~;
-		 exit(1);
-	}
-
 	# get info nessecairy for FTP
-	$this->{username} = $special_cfg{'u'};
-	$this->{password} = $special_cfg{'v'};
+	$this->{username} = $special_cfg{'u'} if $special_cfg{'u'};
+	$this->{password} = $special_cfg{'v'} if $special_cfg{'v'};
 	$this->{vrfy} = "PWD\r\n";
 
 	# let's see if we got a correct login..
@@ -72,8 +61,8 @@ sub getLoginarray {
  my $this = shift;
  @Loginarray = (
   "XAXAX\r\n",
- 	"USER XAXAX\r\n",
- 	"USER $this->{username}\r\nPASS XAXAX\r\n",
+  "USER XAXAX\r\n",
+  "USER $this->{username}\r\nPASS XAXAX\r\n",
   "PASS XAXAX\r\n"
  );
  return (@Loginarray);
@@ -92,7 +81,7 @@ sub getCommandarray {
 		"DELE XAXAX\r\n",
 		"HELP XAXAX\r\n",
 		"MDTM XAXAX\r\n",
-                "MLST XAXAX\r\n",
+    "MLST XAXAX\r\n",
 		"MODE XAXAX\r\n",
 		"MKD XAXAX\r\n",
 		"MKD XAXAX\r\nCWD XAXAX\r\n",
