@@ -24,12 +24,12 @@ my @formatstrings = ("%s" x 4, "%s" x 8, "%s" x 15, "%s" x 30, "%.1024d", "%.204
 my @unicodestrings = ("\0x99"x4, "\0x99"x512, "\0x99"x1024, "\0xCD"x10, "\0xCD"x40, "\0xCB"x10, "\0xCB"x40);
 my @largenumbers = ("255", "256", "257", "65535", "65536", "65537", "16777215", "16777216", "16777217", "0xfffffff", "-1", "-268435455", "-20");
 my @miscstrings = ("/", "%0xa", "+", "<", ">", "%". "-", "+", "*", ".", ":", "&", "%u000", "\r", "\r\n", "\n");
-
+my $idx = 0;
 
 print ("\n BED 0.5.1 by mjm ( www.codito.de ) & eric ( www.snake-basket.de )\n\n");
 
 # get the parameters we need for every test
-getopts('s:t:o:p:u:v:w:x:');
+getopts('s:t:o:p:r:u:v:w:x:');
 &usage unless(defined $opt_s);
 
 $opt_s = lc($opt_s);                         # convert it to lowercase
@@ -50,6 +50,7 @@ foreach $plug (@plugins){
   "t" => "$opt_t",                           # target
   "o" => "$opt_o",                           # timeOut
   "p" => "$opt_p",                           # port
+  "r" => "$opt_r",                           # resume test case number
 
   "u" => "$opt_u",                           # special parameters for the plugin...
   "v" => "$opt_v",
@@ -115,12 +116,12 @@ exit(0);
 # this function tests each of the two arrays ( buffer overflow and format string )
 sub testThis(){
         @testArray = @_;
-        if ( $module->{proto} eq "udp" ){  
+        if ( $module->{proto} eq "udp" ){
 		$socktype = SOCK_DGRAM;
         } else {
                 $socktype = SOCK_STREAM;
         }
-
+        $|=1; #Auto flush output for more timely screen updates
         $count = 0;
         $quit = $module->getQuit;
         my $total = scalar(@cmdArray);
@@ -131,9 +132,11 @@ sub testThis(){
                 $cmd2 =~ s/\n|\r|[\00-\33]//ig;                              # remove \r and \n for nice displaying
                 $cmd2 = substr($cmd2, 0, 30);
 
-                print "\t\ttesting: $count/$total\t$cmd2\t";
+                print "\t\ttesting: $count/$total\t$cmd2 ";
                 foreach $LS (@testArray){
                         print ".";
+                        $idx++;
+                        if ($special_cfg{'r'} > $idx) { next; }
 
                         $command = $cmd;
                         $command =~ s/XAXAX/$LS/ig;                   # prepare the string
@@ -165,13 +168,13 @@ sub testThis(){
                                 $paddr = sockaddr_in($module->{port}, $iaddr)     || die "getprotobyname: $!\n";
                                 $proto = getprotobyname($module->{proto})         || die "getprotobyname: $!\n";
                                 socket(SOCKET, PF_INET, $socktype, $proto)        || die "socket: $!\n";
-                                connect(SOCKET, $paddr)                           || die "Problem (3) occured with -$count- $cmd2-\n$command\n";
+                                connect(SOCKET, $paddr)                           || die "Problem (3) occured with $cmd2 ($idx): $command\n";
                                 close SOCKET;
                         }
 
                 sleep($module->{timeout});                                             # some servers would kick us for too fast logins
                 }
-                print "\n";
+                print " ($idx)\n";
         }
 }
 
