@@ -29,7 +29,8 @@ sub init{
 	$this->{password} = $special_cfg{'v'} if $special_cfg{'v'};
 	$this->{vrfy} = "PWD\r\n";
 
-	# let's see if we got a correct login..
+	# let's see if we got a correct login (skip if dump mode is set)
+  if ($special_cfg{'d'}) { return; }
  	$iaddr = inet_aton($this->{target})             || die "Unknown host: $host\n";
 	$paddr = sockaddr_in($this->{port}, $iaddr)     || die "getprotobyname: $!\n";
  	$proto = getprotobyname('tcp')                  || die "getprotobyname: $!\n";
