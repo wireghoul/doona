@@ -25,11 +25,12 @@ my @unicodestrings = ("\0x99"x4, "\0x99"x512, "\0x99"x1024, "\0xCD"x10, "\0xCD"x
 my @largenumbers = ("255", "256", "257", "65535", "65536", "65537", "16777215", "16777216", "16777217", "0xfffffff", "-1", "-268435455", "-20");
 my @miscstrings = ("/", "%0xa", "+", "<", ">", "%". "-", "+", "*", ".", ":", "&", "%u000", "\r", "\r\n", "\n");
 my $idx = 0;
+my $prevfuzz = '';
 
 print ("\n BED 0.5.1 by mjm ( www.codito.de ) & eric ( www.snake-basket.de )\n\n");
 
 # get the parameters we need for every test
-getopts('s:t:o:p:r:u:v:w:x:');
+getopts('s:t:o:p:r:u:v:w:x:d');
 &usage unless(defined $opt_s);
 
 $opt_s = lc($opt_s);                         # convert it to lowercase
@@ -51,6 +52,7 @@ foreach $plug (@plugins){
   "o" => "$opt_o",                           # timeOut
   "p" => "$opt_p",                           # port
   "r" => "$opt_r",                           # resume test case number
+  'd' => "$opt_d",                           # Print fuzz case to screen and quit
 
   "u" => "$opt_u",                           # special parameters for the plugin...
   "v" => "$opt_v",
@@ -76,9 +78,9 @@ $module->init(%special_cfg);
 @cmdArray = $module->getLoginarray;          # which login stuff do we test
 
 if ( @cmdArray[0] ne "" ){
-        print (" + Buffer overflow testing:\n");
+        print (" + Buffer overflow testing\n");
         &testThis(@overflowstrings);
-        print (" + Formatstring testing:\n");
+        print (" + Formatstring testing\n");
         &testThis(@formatstrings);
 }
 
@@ -86,27 +88,27 @@ if ( @cmdArray[0] ne "" ){
 print ("* Normal tests\n");
 @cmdArray = $module->getCommandarray;
 @login = $module->getLogin;
-print (" + Buffer overflow testing:\n");
+print (" + Buffer overflow testing\n");
 &testThis(@overflowstrings);
-print (" + Formatstring testing:\n");
+print (" + Formatstring testing\n");
 &testThis(@formatstrings);
 print (" + Unicode testing:\n");
 &testThis(@unicodestrings);
-printf(" + random number testing:\n");
+printf(" + random number testing\n");
 &testThis(@largenumbers);
+# make the module test all other stuff
+print ("* Other tests\n");
+$module->testMisc();
 
 # test different sizes
 for ($i = 1; $i < 20; $i++ ) {
-	printf(" + testing misc strings $i:\n");
+	printf(" + testing misc strings $i\n");
 	&testThis(@miscstrings);
 	for ($j = 0; $j < @miscstrings; $j++) {
 		$miscstrings[$j] = $miscstrings[$j].$miscstrings[$j];
 	}
 }
 
-# make the module test all other stuff
-print ("* Other tests:\n");
-$module->testMisc();
 print ("* All tests done.\n\n");
 exit(0);
 
@@ -137,16 +139,17 @@ sub testThis(){
                         print ".";
                         $idx++;
                         if ($special_cfg{'r'} > $idx) { next; }
-
+                        $prevfuzz = $command;
                         $command = $cmd;
                         $command =~ s/XAXAX/$LS/ig;                   # prepare the string
+                        if ($special_cfg{'d'}) { print "\nFuzz case: --copy--\n$command\\r\\n\n--cut--\n"; exit; }
                         $iaddr = inet_aton($module->{target})             || die "Unknown host: $module->{target}\n";
                         $paddr = sockaddr_in($module->{port}, $iaddr)     || die "getprotobyname: $!\n";
                         $proto = getprotobyname($module->{proto})         || die "getprotobyname: $!\n";
                         socket(SOCKET, PF_INET, $socktype, $proto)        || die "socket: $!\n";
                         $sockaddr = sockaddr_in($module->{sport}, INADDR_ANY);
                 	while ( !bind(SOCKET, $sockaddr) ) {}         # we need to bind for LPD for example
-                        connect(SOCKET, $paddr)                           || die "connection attempt failed: $!\n";
+                        connect(SOCKET, $paddr)                           || die "connection attempt failed: $!, previous command was: $prevfuzz\n";
 
                         # login ...
                         foreach $log (@login){
@@ -158,8 +161,8 @@ sub testThis(){
                         send(SOCKET, $command, 0);                    # send the attack and verify that the server is still alive
                                                                       # Is there a possibility to check within connection?
                         if ($module->{vrfy} ne "") {
-                                    send(SOCKET, $module->{vrfy},0)               || die "Problem (1) occured with -$count-$cmd2-\n";
-                                    $recvbuf = <SOCKET>                           || die "Problem (2) occured with -$count-$cmd2-\n";
+                                    send(SOCKET, $module->{vrfy},0)               || die "Problem (1) occured with $cmd2 ($idx): $command, previous command was: $prevfuzz\n";
+                                    $recvbuf = <SOCKET>                           || die "Problem (2) occured with $cmd2 ($idx): $command, previous command was: $prevfuzz\n";
                                     send(SOCKET, $quit, 0);           # close the connection
                                     close SOCKET;
                         } else {
@@ -168,7 +171,7 @@ sub testThis(){
                                 $paddr = sockaddr_in($module->{port}, $iaddr)     || die "getprotobyname: $!\n";
                                 $proto = getprotobyname($module->{proto})         || die "getprotobyname: $!\n";
                                 socket(SOCKET, PF_INET, $socktype, $proto)        || die "socket: $!\n";
-                                connect(SOCKET, $paddr)                           || die "Problem (3) occured with $cmd2 ($idx): $command\n";
+                                connect(SOCKET, $paddr)                           || die "Problem (3) occured with $cmd2 ($idx): $command, previous command was: $prevfuzz\n";
                                 close SOCKET;
                         }
 
