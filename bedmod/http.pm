@@ -107,8 +107,11 @@ sub getLogin{
 	return(@login);
 }
 
-sub testMisc{
- return();
+sub testMisc{ #Put your corner case tests here...
+  my $this = shift;
+  @cmdArray = {
+  };
+  return(@cmdArray);
 }
 
 
