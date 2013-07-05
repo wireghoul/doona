@@ -110,7 +110,7 @@ sub getCommandarray {
 
 sub getLogin{
 	my $this = shift;
-	@login = ("SETUP rtsp://localhost/media.mp4 RTSP/1.0\r\nCSeq: 2\r\n");
+	@login = ("DESCRIBE rtsp://localhost/media.mp4 RTSP/1.0\r\nCSeq: 1\r\n");
 	return(@login);
 }
 
