@@ -123,5 +123,7 @@ sub testMisc{ #Put your corner case tests here...
   return(@cmdArray);
 }
 
+sub usage {
+}
 
 1;

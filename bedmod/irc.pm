@@ -129,4 +129,7 @@ sub testMisc{
 	return();
 }
 
+sub usage {
+}
+
 1;

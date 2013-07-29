@@ -22,13 +22,7 @@ sub init{
           else { $this->{port} = $special_cfg{'p'}; }
 
 	if (( $special_cfg{'u'} eq "") || ( $special_cfg{'v'} eq "")){
-		 print qq~
- 	Parameters for the POP plugin:
-
- 		-u <username>
- 		-v <password>
-
-~;
+   &usage();
 	 exit(1);
 	}
 
@@ -96,6 +90,15 @@ sub getLogin{ 		# login procedure
 
 sub testMisc{
 	return();
+}
+
+sub usage {
+  print qq~ Parameters for the POP plugin:
+
+    -u <username>
+    -v <password>
+
+~;
 }
 
 1;

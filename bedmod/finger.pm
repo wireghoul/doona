@@ -51,6 +51,8 @@ sub getCommandarray {
 	@cmdArray = (
 		"XAXAX\r\n",
 		"\@XAXAX\r\n",
+    "XAXAX\@\r\n",
+    "XAXAX\@XAXAX\r\n"
 	);
 	return(@cmdArray);
 }
@@ -71,5 +73,7 @@ sub testMisc{
 	return();
 }
 
+sub usage {
+}
 
 1;

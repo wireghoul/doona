@@ -21,12 +21,7 @@ sub init{
       else { $this->{port} = $special_cfg{'p'}; }
 
 	if ( $special_cfg{'u'} eq "") {
-		 print qq~
- 	Parameters for the SMTP plugin:
-
- 		-u <valid mail address at target host>
-
-~;
+    &usage();
 		 exit(1);
 	}
 
@@ -84,5 +79,12 @@ sub testMisc{
 	return();
 }
 
+sub usage {
+  print qq~ Parameters for the SMTP plugin:
+
+  -u <valid mail address at target host>
+
+~;
+}
 
 1;

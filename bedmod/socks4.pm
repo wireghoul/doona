@@ -30,12 +30,8 @@ sub init{
     $this->{sport} = 0;
     $this->{vrfy} = "";
 
-    if ( $special_cfg{'u'} eq "" ){
-        print qq~
-    Parameters for the Socks4 plugin:
-                -u <username>
-
-~;
+    if ( $special_cfg{'u'} eq "" )
+        &usage(){
         exit(1);
     }
 
@@ -97,5 +93,10 @@ sub testMisc{
 	return();
 }
 
+sub usage {
+    print qq~ Parameters for the Socks4 plugin:
+ -u <username>
+~;
+}
 
 1;

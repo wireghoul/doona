@@ -15,7 +15,6 @@ sub new{
         $this->{sport}              = 721;
         bless $this;
         return $this;
-        
 }
 
 # \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -72,7 +71,6 @@ sub getCommandarray {
                 "\0294cfA001XAXAX\n",
                 "\0394XAXAX001test\n",
                 "\0394cfA001XAXAX\n",
-                
         );
         return(@cmdArray);
 }
@@ -93,5 +91,7 @@ sub testMisc{
         return();
 }
 
+sub usage {
+}
 
 1;

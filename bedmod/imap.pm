@@ -28,14 +28,8 @@ sub init{
       else { $this->{port} = $special_cfg{'p'}; }
 
 	if (( $special_cfg{'u'} eq "") || ($special_cfg{'v'} eq "" )) {
-		 print qq~
- 	Parameters for the imap plugin:
-
- 		-u <username>
-		-v <password>
-
-~;
-		 exit(1);
+		&usage();
+    exit(1);
 	}
 	
         $this->{user} = $special_cfg{'u'};
@@ -126,5 +120,13 @@ sub testMisc{
 	return();
 }
 
+sub usage {
+  print qq~ Parameters for the imap plugin:
+
+    -u <username>
+    -v <password>
+
+~;
+}
 
 1;

@@ -32,13 +32,8 @@ sub init{
     $this->{vrfy} = "";
 
     if (( $special_cfg{'u'} eq "" ) || ( $special_cfg{'v'} eq "" )){
-        print qq~
-    Parameters for the Socks5 plugin:
-                -u <username>
-                -v <password>
-
-~;
-        exit(1);
+      &usage();
+      exit(1);
     }
 
     $this->{username} = $special_cfg{'u'};
@@ -103,5 +98,11 @@ sub testMisc{
 	return();
 }
 
+sub usage {
+  print qq~ Parameters for the Socks5 plugin:
+ -u <username>
+ -v <password>
+~;
+}
 
 1;

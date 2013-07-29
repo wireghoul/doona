@@ -167,5 +167,12 @@ sub testMisc{
 	return();
 }
 
+sub usage {
+  print qq~ FTP Module specific options:
+ -u <username> = Username to use for authentication (default: anonymous)
+ -v <password> = Password to use for authentication (default: user\@this.bed)
+
+~;
+}
 
 1;
