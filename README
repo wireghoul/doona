@@ -1,54 +1,42 @@
 
-        [ Bruteforce Exploit Detector ]
+        [ Bruteforce Exploit Detector - Doona fork ]
 
-[ About --+
+.:: About  ::.
 
+  Doona is a fork of the Bruteforce Exploit Detector Tool (BED).
   BED is a program which is designed to check daemons for
-  potential buffer overflows, format string bugs et. al.
+  potential buffer overflows, format string bugs etc.
 
-  BED simply sends the commands to the server and checks
-  whether it is still alive afterwards.
+  Doona is Australian for duvet. It adds a significant enough number
+  of features/changes to BED that I renamed it to avoid confusion.
 
-  Of course this will not detect all bugs of the specified
-  daemon but it will (at least it should) help you to
-  check your software for common vulnerabilities.
+  I hope you'll find it useful.
+
+  @Wireghoul
+
+.:: Version ::.
+
+  0.6 - Doona release
+  0.5 - Fork from BED
 
 
-[ Version --+
-
-  0.42 - "What is the question?"
-
-[ Notice --+
-
-  On success, BED WILL CRASH THE DAEMON, so do not test
-  on critical and important systems.
-  We are not responsible for any problems accuring during
-  running our software.
-
-[ More Informations --+
-
-  See 'docs/'.
-
-[ License --+
+.:: License ::.
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation; either version 2 of the License, or
   any later version.
 
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with this program; if not, write to the Free Software
-  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
   See 'docs/gpl.txt' for more information.
 
-[ Authors --+
+.:: Authors ::.
 
+  Doona:
+  Eldar Marcussen aka, 'Wireghoul'
+     http://www.justanotherhacker.com
+
+  BED was written by:
   Eric Sesterhenn aka. 'Snakebyte'
     -Mail: snakebyte@gmx.de
     -Web:  www.snake-basket.de
@@ -56,5 +44,4 @@
   Martin J. Muench aka. 'mjm'
     -Mail: mjm@codito.de
     -Web:  www.codito.de
-
 

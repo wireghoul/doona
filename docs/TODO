@@ -1,3 +1,2 @@
 alot of plugins, feel free to write some :)
-
-maybe cleanup of the ftp directory traversal crap
+Fix FTP module to still fuzz public commands if login fails

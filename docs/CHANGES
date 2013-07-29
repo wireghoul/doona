@@ -1,11 +1,20 @@
-[ 0.5.1 ]
-Contributions by Wireghoul
+[ 0.6 first doona release ]
 - added rtsp module
 - added tftp module
+- added whois module
 - added more irc fuzz cases
 - added more finger fuzz cases
 - added more http fuzz cases
 - added progress indicator count to fuzz cases
+- added resume feature (uses test case number)
+- added crash indicators for test case number
+- added signal handlers (displays testcase number on crtl^c or kill)
+- added feature to dump what a test case number would send
+- ftp module now uses anonymous login if username password not provided
+- Changed the order test cases are executed to allow corner cases to be tested earlier
+- Changed diagnostic output
+* New and improved help text
+- Some code cleanup
 
 [ 0.5 ]
 - fixed port for smtp module
