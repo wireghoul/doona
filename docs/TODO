@@ -1,2 +1,3 @@
 alot of plugins, feel free to write some :)
 Fix FTP module to still fuzz public commands if login fails
+Add support for ping feature to see is service is still alive (better crash detection)

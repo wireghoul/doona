@@ -126,7 +126,7 @@ sub getCommandarray {
 
 sub getLogin{ 		# login procedure
 	my $this = shift;
-	@login = ("USER $this->{username}\r\n", "PASS $this->{password}\r\n");
+	@login = ("USER $this->{username}\r\nPASS $this->{password}\r\n");
 	return(@login);
 }
 

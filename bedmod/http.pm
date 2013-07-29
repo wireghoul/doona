@@ -109,7 +109,9 @@ sub getCommandarray {
 
 sub getLogin{
 	my $this = shift;
-	@login = ("GET / HTTP/1.0\r\n");
+	@login = (
+    "GET / HTTP/1.0\r\n",
+  );
 	return(@login);
 }
 
