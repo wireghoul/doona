@@ -34,7 +34,7 @@ my $prevfuzz = '';
 print "\n Doona 0.6 by Wireghoul (www.justanotherhacker.com) based on BED my mjm and snakebyte\n\n";
 
 # get the parameters we need for every test
-getopts('s:t:o:p:r:u:v:w:x:d');
+getopts('s:t:o:p:r:u:v:w:x:dh');
 &usage unless($opt_s);
 $opt_s = lc($opt_s);                         # convert it to lowercase
 
@@ -49,6 +49,7 @@ foreach my $plug (@plugins){
 }
 
 &usage unless(defined $module);
+&usage if ($opt_h);
 
 my %special_cfg=(
     "t" => "$opt_t",                           # target
@@ -186,20 +187,25 @@ sub testThis(){
 
 # how to use these scripts...
 sub usage {
-    print qq~
- Usage:
+    print qq~Usage:
 
- $0 -s <plugin> -t <target> -p <port> -o <timeout> [ depends on the plugin ]
+ $0 -s [plugin] <options>
 
- <plugin>   = FTP/SMTP/POP/HTTP/IRC/IMAP/PJL/LPD/FINGER/SOCKS4/SOCKS5
- <target>   = Host to check (default: localhost)
- <port>     = Port to connect to (default: standard port)
- <timeout>  = seconds to wait after each test (default: 2 seconds)
- use "$0 -s <plugin> -h" to obtain the parameters you need for the plugin.
- 
+ -s <plugin>   = ~ . join('/', map(uc, @plugins)). qq~
+ -t <target>   = Host to check (default: localhost)
+ -p <port>     = Port to connect to (default: module specific standard port)
+ -o <timeout>  = seconds to wait after each test (default: 2 seconds)
+ -r <index>    = Resumes fuzzing at test case index
+ -d            = Dump test case to stdout (use in combination with -r)
+ -h            = Help (this text)
+ use "$0 -s <plugin> -h" for plugin specific option.
+
  Only -s is a mandatory switch.
 
 ~;
+    if ($opt_h && $module) {
+      $module->usage() if $module;
+    }
     exit(1);
 }
 
