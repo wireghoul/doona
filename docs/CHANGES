@@ -2,9 +2,10 @@
 - added rtsp module
 - added tftp module
 - added whois module
-- added more irc fuzz cases
-- added more finger fuzz cases
-- added more http fuzz cases
+- added more irc test cases
+- added more finger test cases
+- added more http test cases
+- added more ftp test cases
 - added progress indicator count to fuzz cases
 - added resume feature (uses test case number)
 - added crash indicators for test case number
@@ -13,7 +14,7 @@
 - ftp module now uses anonymous login if username password not provided
 - Changed the order test cases are executed to allow corner cases to be tested earlier
 - Changed diagnostic output
-* New and improved help text
+- New and improved help text
 - Some code cleanup
 
 [ 0.5 ]
