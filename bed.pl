@@ -18,7 +18,7 @@ my $SOCKET = "";
 # the hope is to overwrite a return pointer on the stack,
 # making the server execute invalid code and crash
 # the last two entries in the overflowstringsarray are a DoS attempt for ftp/http
-my @overflowstrings = ("A" x 33, "A" x 254, "A" x 255, "A" x 1023, "A" x 1024, "A" x 2047, "A" x 2048, "A" x 5000, "A" x 10000, "\\" x 200, "/" x 200);
+my @overflowstrings = ("A" x 33, "A" x 254, "A" x 255, "A" x 1023, "A" x 1024, "A" x 2047, "A" x 2048, "A" x 5000, "A" x 10000, "\\" x 200, "/" x 200, " " x 9000);
 my @formatstrings = ("%s" x 4, "%s" x 8, "%s" x 15, "%s" x 30, "%.1024d", "%.2048d", "%.4096d");
 # three ansi overflows, two ansi format strings, two OEM Format Strings
 my @unicodestrings = ("\0x99"x4, "\0x99"x512, "\0x99"x1024, "\0xCD"x10, "\0xCD"x40, "\0xCB"x10, "\0xCB"x40);
@@ -149,7 +149,7 @@ sub testThis(){
                         socket(SOCKET, PF_INET, $socktype, $proto)        || die "socket: $!\n";
                         $sockaddr = sockaddr_in($module->{sport}, INADDR_ANY);
                 	while ( !bind(SOCKET, $sockaddr) ) {}         # we need to bind for LPD for example
-                        connect(SOCKET, $paddr)                           || die "connection attempt failed: $!, previous command was: $prevfuzz\n";
+                        connect(SOCKET, $paddr)                           || die "connection attempt failed: $!, previous command was: ($idx) $prevfuzz\n";
 
                         # login ...
                         foreach $log (@login){
