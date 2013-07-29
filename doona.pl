@@ -101,7 +101,7 @@ print " + random number testing\n";
 &testThis(@largenumbers);
 
 # make the module test all other stuff
-print "* Other tests\n";
+print " + Other tests\n";
 $module->testMisc();
 
 # test different sizes
