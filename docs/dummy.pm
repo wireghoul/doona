@@ -110,5 +110,11 @@ sub testMisc{
 	return();
 }
 
+# Module specific help goes here
+# Leave an empty sub if there is no module specific help
+sub usage {
+  print qq~ Module spacific help:
+~;
+}
 
 1;
