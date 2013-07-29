@@ -68,14 +68,19 @@ sub getCommandarray {
 
 	@cmdArray = (
     "XAXAX: XAXAX\r\n\r\n",
-		"User-Agent: XAXAX\r\n\r\n", 
-		"Host: XAXAX\r\n\r\n", 
+		"User-Agent: XAXAX\r\n\r\n",
+		"Host: XAXAX\r\n\r\n",
+    "Host: XAXAX:80\r\n\r\n",
+    "Host: somehost:XAXAX\r\n\r\n",
 		"Accept: XAXAX\r\n\r\n",
 		"Accept-Encoding: XAXAX\r\n\r\n",
 		"Accept-Language: XAXAX\r\n\r\n",
 		"Accept-Charset: XAXAX\r\n\r\n",
 		"Connection: XAXAX\r\n\r\n",
 		"Referer: XAXAX\r\n\r\n",
+    "Referer: XAXAX://somehosst.com/\r\n\r\n",
+    "Referer: http://XAXAX/\r\n\r\n",
+    "Referer: http://somehost.com/XAXAX\r\n\r\n",
 		"Authorization: XAXAX\r\n\r\n",
 		"From: XAXAX\r\n\r\n",
 		"Charge-To: XAXAX\r\n\r\n",
@@ -93,6 +98,7 @@ sub getCommandarray {
 		"Pragma: XAXAX\r\n\r\n",
 		"Expect: XAXAX\r\n\r\n",
 		"Range: XAXAX\r\n\r\n",
+    "Range: 1-XAXAX\r\n\r\n",
 		"Content-Length: XAXAX\r\n\r\n",
 		"Cookie: XAXAX\r\n\r\n",
 		"TE: XAXAX\r\n\r\n",
@@ -109,8 +115,9 @@ sub getLogin{
 
 sub testMisc{ #Put your corner case tests here...
   my $this = shift;
-  @cmdArray = {
-  };
+  @cmdArray = (
+    "GET / HTTP/1.0\r\n" . "Lotsofheaders: XAXAX\r\n" x 1024 . "\r\n"
+  );
   return(@cmdArray);
 }
 
