@@ -22,6 +22,7 @@ sub init{
     $this->{port} = $special_cfg{'p'};
   }
 
+  if ($special_cfg{'d'}) { return; }
  	$iaddr = inet_aton($this->{target})             || die "Unknown host: $host\n";
 	$paddr = sockaddr_in($this->{port}, $iaddr)     || die "getprotobyname: $!\n";
  	$proto = getprotobyname('tcp')                  || die "getprotobyname: $!\n";
