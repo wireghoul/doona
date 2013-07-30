@@ -146,22 +146,30 @@ sub testThis(){
             $prevfuzz = $command;
             $command = $cmd;
             $command =~ s/XAXAX/$LS/ig;                   # prepare the string
-            if ($special_cfg{'d'}) { print "\nFuzz case: --copy--\n$command\\r\\n\n--cut--\n"; exit; }
-            my $iaddr = inet_aton($module->{target})             || die "Unknown host: $module->{target}\n";
-            my $paddr = sockaddr_in($module->{port}, $iaddr)     || die "getprotobyname: $!\n";
-            my $proto = getprotobyname($module->{proto})         || die "getprotobyname: $!\n";
-            socket(SOCKET, PF_INET, $socktype, $proto)        || die "socket: $!\n";
-            my $sockaddr = sockaddr_in($module->{sport}, INADDR_ANY);
-            while ( !bind(SOCKET, $sockaddr) ) {}         # we need to bind for LPD for example
-            connect(SOCKET, $paddr)                           || die "connection attempt failed: $!, previous command was: ($idx) $prevfuzz\n";
+            if ($special_cfg{'d'}) { 
+              print "\nFuzz case: --copy--\n"; 
+            } else {
+              my $iaddr = inet_aton($module->{target})             || die "Unknown host: $module->{target}\n";
+              my $paddr = sockaddr_in($module->{port}, $iaddr)     || die "getprotobyname: $!\n";
+              my $proto = getprotobyname($module->{proto})         || die "getprotobyname: $!\n";
+              socket(SOCKET, PF_INET, $socktype, $proto)        || die "socket: $!\n";
+              my $sockaddr = sockaddr_in($module->{sport}, INADDR_ANY);
+              while ( !bind(SOCKET, $sockaddr) ) {}         # we need to bind for LPD for example
+              connect(SOCKET, $paddr)                           || die "connection attempt failed: $!, previous command was: ($idx) $prevfuzz\n";
+            }
 
             # login ...
             foreach my $log (@login){
                 if ( $log ne "" ){
+                  if ($special_cfg{'d'}) { 
+                    print "$log"; 
+                  } else {
                     send(SOCKET, $log, 0);
                     sleep(1);                     # some daemons need some time to reply
+                  }
                 }
             }
+            if ($special_cfg{'d'}) { print "$command\\r\\n\n--cut--\n"; exit; }
             send(SOCKET, $command, 0);                    # send the attack and verify that the server is still alive
             # Is there a possibility to check within connection?
             if ($module->{vrfy} ne "") {
