@@ -211,7 +211,7 @@ sub usage {
  Only -s is a mandatory switch.
 
 ~;
-    if ($opt_h && $module) {
+    if ($opt_h) {
       $module->usage() if $module;
     }
     exit(1);
