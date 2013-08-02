@@ -46,6 +46,7 @@ sub getLoginarray {
   "GET /XAXAX HTTP/1.0\r\n\r\n",
   "GET /?XAXAX HTTP/1.0\r\n\r\n",
   "GET / XAXAX\r\n\r\n",
+  "GET / HTTP/XAXAX\r\n\r\n",
   "GET /XAXAX\r\n\r\n",
   "POST XAXAX HTTP/1.0\r\n\r\n",
   "POST /XAXAX HTTP/1.0\r\n\r\n",
@@ -60,6 +61,12 @@ sub getLoginarray {
 	"OPTIONS XAXAX HTTP/1.0\r\n\r\n",
 	"OPTIONS /XAXAX HTTP/1.0\r\n\r\n",
 	"OPTIONS / XAXAX\r\n\r\n",
+  "PUT XAXAX HTTP/1.0\r\n\r\n",
+  "PUT /XAXAX HTTP/1.0\r\n\r\n",
+  "PUT / XAXAX\r\n\r\n",
+  "TRACE XAXAX HTTP/1.0\r\n\r\n",
+  "TRACE /XAXAX HTTP/1.0\r\n\r\n",
+  "TRACE / XAXAX\r\n\r\n",
  );
  return (@Loginarray);
 }
