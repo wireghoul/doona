@@ -31,7 +31,7 @@ my @largenumbers = ("255", "256", "257", "65535", "65536", "65537", "16777215", 
 my @miscstrings = ("/", "%0xa", "+", "<", ">", "%". "-", "+", "*", ".", ":", "&", "%u000", "\r", "\r\n", "\n");
 my $idx = 0;
 my $prevfuzz = '';
-print "\n Doona 0.6 by Wireghoul (www.justanotherhacker.com) based on BED my mjm and snakebyte\n\n";
+print "\n Doona 0.6 by Wireghoul (www.justanotherhacker.com) based on BED by mjm and snakebyte\n\n";
 
 # get the parameters we need for every test
 getopts('s:t:o:p:r:u:v:w:x:dh');
