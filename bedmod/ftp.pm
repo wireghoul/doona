@@ -75,13 +75,16 @@ sub getCommandarray {
 	# the XAXAX will be replaced with the buffer overflow / format string
 	# just comment them out if you don't like them..
 	@cmdArray = (
+    "XAXAX\r\n",
+    "ABOR XAXAX\r\n",
 		"ACCT XAXAX\r\n",
+    "ALLO XAXAX\r\n",
 		"APPE XAXAX\r\n",
-		"ALLO XAXAX\r\n",
 		"CWD XAXAX\r\n",
-		"CEL XAXAX\r\n", 
+		"CEL XAXAX\r\n",
 		"DELE XAXAX\r\n",
 		"HELP XAXAX\r\n",
+    "LIST XAXAX\r\n",
 		"MDTM XAXAX\r\n",
     "MLST XAXAX\r\n",
 		"MODE XAXAX\r\n",
@@ -90,18 +93,17 @@ sub getCommandarray {
 		"MKD XAXAX\r\nDELE XAXAX\r\n",
 		"MKD XAXAX\r\nRMD XAXAX\r\n",
 		"MKD XAXAX\r\nXRMD XAXAX\r\n",
-		"NLST XAXAX\r\n", 
-		"RETR XAXAX\r\n",
+		"NLST XAXAX\r\n",
+    "PASS XAXAX\r\n",
+    "PASV XAXAX\r\n",
+    "PORT XAXAX\r\n",
+    "PWD XAXAX\r\n",
 		"REST XAXAX\r\n",
+		"RETR XAXAX\r\n",
 		"RNFR XAXAX\r\n",
 		"RMD XAXAX\r\n",
 		"RNTO XAXAX\r\n",
 		"RNFR XAXAX\r\nRNTO XAXAX\r\n",
-		"SIZE XAXAX\r\n",
-		"STRU XAXAX\r\n",
-		"STOR XAXAX\r\n",
-		"STAT XAXAX\r\n",
-		"SMNT XAXAX\r\n",
 		"SITE XAXAX\r\n",
 		"SITE EXEC XAXAX\r\n",
 		"SITE GROUPS XAXAX\r\n",
@@ -116,11 +118,16 @@ sub getCommandarray {
 		"SITE IDLE XAXAX\r\n",
 		"SITE CHMOD XAXAX\r\n",
 		"SITE UMASK XAXAX\r\n",
+    "SIZE XAXAX\r\n",
+    "SMNT XAXAX\r\n",
+    "STRU XAXAX\r\n",
+    "STOR XAXAX\r\n",
+    "STAT XAXAX\r\n",
 		"SYST XAXAX\r\n",
 		"TYPE XAXAX\r\n",
 		"TYPE L\r\n",
+    "USER XAXAX\r\n",
 		"XRMD XAXAX\r\n",
-		"XAXAX\r\n"
 	);
 	return(@cmdArray);
 }
@@ -133,6 +140,7 @@ sub getLogin{ 		# login procedure
 
 sub testMisc{
 	my $this = shift;
+  return; # Directory traversal code is buggy an not really what I want
 	# test for bof in login / user ?
 	# test for the availability to abuse this host for portscanning ?
 
@@ -147,12 +155,13 @@ sub testMisc{
 	 	socket(SOCKET, PF_INET, SOCK_STREAM, $proto)    || die "socket: $!\n";
 	 	connect(SOCKET, $paddr)						 	|| die "connection attempt failed: $!\n";
 	 	send(SOCKET, "USER $this->{username}\r\n", 0)   || die "USER failed: $!\n";
+    sleep(2); # some ftp's need some time to reply  
 	 	$recvbuf = <SOCKET>;
-	 	sleep(1);	# some ftp's need some time to reply
 	 	send(SOCKET, "PASS $this->{password}\r\n", 0)   || die "PASS failed: $!\n";
+    sleep(2); # some ftp's need some time to reply  
 		$recvbuf = <SOCKET> 						    || die "Login failed $!\n";
-	 	sleep(1);	# some ftp's need some time to reply
 	    send(SOCKET, "PWD\r\n", 0);                 # get old directory
+      sleep(1);
 	    $curDir = <SOCKET>;
     	send(SOCKET, "CWD $Directory\r\n", 0);	    # send the traversal string
     	# clear the buffer, by waiting for :
@@ -161,7 +170,7 @@ sub testMisc{
 	    send(SOCKET, "PWD\r\n", 0);                 # get new directory
     	$newDir = <SOCKET>;
     	# compare the directories, and report a problem if they are not equal
-    	if ( $curDir ne $newDir ){ print ("Directory Traversal possible with $Directory \n"); }
+    	if ( $curDir ne $newDir ){ print ("Directory Traversal ($curDir => $newDir) possible with $Directory \n"); }
     	send(SOCKET,"QUIT\r\n", 0);					# logout
     	close (SOCKET);							# close connection
 	}
