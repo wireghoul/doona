@@ -38,9 +38,11 @@ sub getQuit{
 sub getLoginarray {
  my $this = shift;
  @Loginarray = (
+  "XAXAX\r\n\r\n",
   "XAXAX / HTTP/1.0\r\n\r\n",
   "HEAD XAXAX HTTP/1.0\r\n\r\n",
   "HEAD /XAXAX HTTP/1.0\r\n\r\n",
+  "HEAD /?XAXAX HTTP/1.0\r\n\r\n",
   "HEAD / XAXAX\r\n\r\n",
   "GET XAXAX HTTP/1.0\r\n\r\n",
   "GET /XAXAX HTTP/1.0\r\n\r\n",
@@ -67,6 +69,7 @@ sub getLoginarray {
   "TRACE XAXAX HTTP/1.0\r\n\r\n",
   "TRACE /XAXAX HTTP/1.0\r\n\r\n",
   "TRACE / XAXAX\r\n\r\n",
+  "TRACK XAXAX HTTP/1.0\r\n\r\n",
  );
  return (@Loginarray);
 }
@@ -86,7 +89,7 @@ sub getCommandarray {
 		"Accept-Charset: XAXAX\r\n\r\n",
 		"Connection: XAXAX\r\n\r\n",
 		"Referer: XAXAX\r\n\r\n",
-    "Referer: XAXAX://somehosst.com/\r\n\r\n",
+    "Referer: XAXAX://somehost.com/\r\n\r\n",
     "Referer: http://XAXAX/\r\n\r\n",
     "Referer: http://somehost.com/XAXAX\r\n\r\n",
 		"Authorization: XAXAX\r\n\r\n",
@@ -106,7 +109,8 @@ sub getCommandarray {
 		"Pragma: XAXAX\r\n\r\n",
 		"Expect: XAXAX\r\n\r\n",
 		"Range: XAXAX\r\n\r\n",
-    "Range: 1-XAXAX\r\n\r\n",
+    "Range: bytes=1-XAXAX\r\n\r\n",
+    "Range: bytes=0-1,XAXAX\r\n",
 		"Content-Length: XAXAX\r\n\r\n",
 		"Cookie: XAXAX\r\n\r\n",
 		"TE: XAXAX\r\n\r\n",
