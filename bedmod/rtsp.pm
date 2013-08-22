@@ -37,6 +37,7 @@ sub getQuit{
 sub getLoginarray {
  my $this = shift;
  @Loginarray = (
+  "XAXAX\r\n\r\n",
 	"XAXAX / RTSP/1.0\r\nCSeq: 1\r\n\r\n",
   "XAXAX rtsp://localhost/file.mpg\r\nCSeq: 1\r\n\r\n",
 	"OPTIONS XAXAX RTSP/1.0\r\nCSeq: 1\r\n\r\n",
