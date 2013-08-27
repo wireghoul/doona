@@ -114,7 +114,7 @@ sub getCommandarray {
 		"Content-Length: XAXAX\r\n\r\n",
 		"Cookie: XAXAX\r\n\r\n",
 		"TE: XAXAX\r\n\r\n",
-		"Upgrade: XAXAX\r\n\r\n",
+		"Upgrade: XAXAX\r\nConnection: upgrade\r\n\r\n",
 	);
 	return(@cmdArray);
 }
