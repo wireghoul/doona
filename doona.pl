@@ -8,12 +8,14 @@
 # BED was written by mjm ( www.codito.de ) and snakebyte ( www.snake-basket.de )
 use Getopt::Std;
 use Socket;
+use Config;
 #use strict;
 #use warnings;
 my $SOCKET = "";
 
 $SIG{'INT'} = \&sigHandler;
 $SIG{'TERM'} = \&sigHandler;
+$SIG{'PIPE'} = \&sigHandler;
 
 # which plugins do we support? insert your plugin ( dummy ) here...
 my @plugins = ( "ftp", "smtp", "pop", "http", "irc", "imap", "pjl", "lpd", "finger", "socks4", "socks5", 'tftp', 'rtsp', 'whois');
@@ -76,6 +78,7 @@ if ($special_cfg{'o'} eq "") { $module->{timeout}='2'; }
 else { $module->{timeout} = $special_cfg{'o'}; }
 
 $module->init(%special_cfg);
+$num_threads = 4; # Run with 4 threads by defaults
 
 # test stuff that might happen during login
 my @cmdArray = $module->getLoginarray;          # which login stuff do we test
@@ -172,8 +175,8 @@ sub testThis(){
             send(SOCKET, $command, 0);                    # send the attack and verify that the server is still alive
             # Is there a possibility to check within connection?
             if ($module->{vrfy} ne "") {
-                send(SOCKET, $module->{vrfy},0)               || die "Problem (1) occured with $cmd2 ($idx): $command\n";
-                my $recvbuf = <SOCKET>                           || die "Problem (2) occured with $cmd2 ($idx): $command\n";
+                send(SOCKET, $module->{vrfy},0)               || die "Problem (1) occured with $cmd2 ($idx)\n";
+                my $recvbuf = <SOCKET>                           || die "Problem (2) occured with $cmd2 ($idx)\n";
                 send(SOCKET, $quit, 0);           # close the connection
                 close SOCKET;
             } else {
@@ -182,7 +185,7 @@ sub testThis(){
                 $paddr = sockaddr_in($module->{port}, $iaddr)     || die "getprotobyname: $!\n";
                 $proto = getprotobyname($module->{proto})         || die "getprotobyname: $!\n";
                 socket(SOCKET, PF_INET, $socktype, $proto)        || die "socket: $!\n";
-                connect(SOCKET, $paddr)                           || die "Problem (3) occured with $cmd2 ($idx): $command\n";
+                connect(SOCKET, $paddr)                           || die "Problem (3) occured with $cmd2 ($idx)\n";
                 close SOCKET;
             }
 
@@ -217,7 +220,7 @@ sub usage {
 }
 
 sub sigHandler {
-        print "\n\nSignal caught!";
+        print "\n\nSignal INT/TERM/PIPE caught!";
         print " - current test case index: ($idx)" if $idx;
         print "\n";
         exit;
