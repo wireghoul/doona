@@ -18,7 +18,7 @@ $SIG{'TERM'} = \&sigHandler;
 $SIG{'PIPE'} = \&sigHandler;
 
 # which plugins do we support? insert your plugin ( dummy ) here...
-my @plugins = ( "ftp", "smtp", "pop", "http", "irc", "imap", "pjl", "lpd", "finger", "socks4", "socks5", 'tftp', 'rtsp', 'whois');
+my @plugins = ( "ftp", "smtp", "pop", "http", "irc", "imap", "pjl", "lpd", "finger", "socks4", "socks5", 'tftp', 'rtsp', 'whois', 'proxy');
 
 # what we test...
 # the hope is to overwrite a return pointer on the stack,
