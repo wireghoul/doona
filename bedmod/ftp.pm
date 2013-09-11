@@ -4,7 +4,7 @@ use Socket;
 # This package is an extension to bed, to check
 # for ftp server vulnerabilities.
 
-sub new{
+sub new {
     my $this = {};
     $this->{username}     = 'anonymous'; # specific for just this
     $this->{password}     = 'user@this.bed'; # module
@@ -12,15 +12,13 @@ sub new{
     return $this;
 }
 
-sub init{
+sub init {
     my $this = shift;
     %special_cfg=@_;
 
     # Specify protocol to use
     $this->{proto}="tcp";
-
     # check for missing args, set target and host
-
     if ($special_cfg{'p'} eq "") { $this->{port}='21'; }
     else { $this->{port} = $special_cfg{'p'}; }
 
@@ -35,14 +33,13 @@ sub init{
     $paddr = sockaddr_in($this->{port}, $iaddr)     || die "getprotobyname: $!\n";
     $proto = getprotobyname('tcp')                  || die "getprotobyname: $!\n";
     socket(SOCKET, PF_INET, SOCK_STREAM, $proto)    || die "socket: $!\n";
-    connect(SOCKET, $paddr)				|| die "connection attempt failed: $!\n";
+    connect(SOCKET, $paddr)                         || die "connection attempt failed: $!\n";
     send(SOCKET, "USER $this->{username}\r\n", 0)   || die "USER failed: $!\n";
     $recvbuf = <SOCKET>;
-    sleep(1);	# some ftp's need some time to reply
+    sleep(1);                                       # some ftp's need some time to reply
     send(SOCKET, "PASS $this->{password}\r\n", 0)   || die "PASS failed: $!\n";
     do {
         $recvbuf = <SOCKET>;
-
         #print ($recvbuf);
         if ( $recvbuf =~ "530" ){
             print ("Username or Password incorrect, can't login\n");
@@ -52,10 +49,9 @@ sub init{
       } until ( $recvbuf =~ "230" );
     send(SOCKET, "QUIT\r\n", 0);
     close(SOCKET);
-
 }
 
-sub getQuit{
+sub getQuit {
     return("QUIT\r\n");
 }
 
@@ -162,13 +158,13 @@ sub getCommandarray {
     return(@cmdArray);
 }
 
-sub getLogin{ 		# login procedure
+sub getLogin {       # login procedure
     my $this = shift;
     @login = ("USER $this->{username}\r\nPASS $this->{password}\r\n");
     return(@login);
 }
 
-sub testMisc{
+sub testMisc {
     my $this = shift;
     return; # Directory traversal code is buggy an not really what I want
     # test for bof in login / user ?
@@ -180,20 +176,20 @@ sub testMisc{
     @traversal = ("...", "%5c..%5c", ,"%5c%2e%2e%5c", "/././..", "/...", "/......", "\\...", "...\\", "....", "*", "\\*", "\\....", "*\\\\.....", "/..../", "/../../../", "\\..\\..\\..\\", "\@/..\@/..");
     foreach $Directory (@traversal){
         $iaddr = inet_aton($this->{target})             || die "Unknown host: $host\n";
-        $paddr = sockaddr_in($this->{port}, $iaddr)       || die "getprotobyname: $!\n";
+        $paddr = sockaddr_in($this->{port}, $iaddr)     || die "getprotobyname: $!\n";
         $proto = getprotobyname('tcp')                  || die "getprotobyname: $!\n";
         socket(SOCKET, PF_INET, SOCK_STREAM, $proto)    || die "socket: $!\n";
-        connect(SOCKET, $paddr)						 	|| die "connection attempt failed: $!\n";
+        connect(SOCKET, $paddr)                         || die "connection attempt failed: $!\n";
         send(SOCKET, "USER $this->{username}\r\n", 0)   || die "USER failed: $!\n";
         sleep(2); # some ftp's need some time to reply
         $recvbuf = <SOCKET>;
         send(SOCKET, "PASS $this->{password}\r\n", 0)   || die "PASS failed: $!\n";
         sleep(2); # some ftp's need some time to reply
-        $recvbuf = <SOCKET> 						    || die "Login failed $!\n";
+        $recvbuf = <SOCKET>                             || die "Login failed $!\n";
         send(SOCKET, "PWD\r\n", 0);                 # get old directory
         sleep(1);
         $curDir = <SOCKET>;
-        send(SOCKET, "CWD $Directory\r\n", 0);	    # send the traversal string
+        send(SOCKET, "CWD $Directory\r\n", 0);      # send the traversal string
         # clear the buffer, by waiting for :
         # 501 550 250 553
         do { $recvbuf = <SOCKET>; } while( ($recvbuf !~ /550/) && ($recvbuf !~ /250/) && ($recvbuf !~ /553/) && ($recvbuf !~ /501/));	# receive answer
@@ -202,8 +198,8 @@ sub testMisc{
 
         # compare the directories, and report a problem if they are not equal
         if ( $curDir ne $newDir ){ print ("Directory Traversal ($curDir => $newDir) possible with $Directory \n"); }
-        send(SOCKET,"QUIT\r\n", 0);					# logout
-        close (SOCKET);							# close connection
+        send(SOCKET,"QUIT\r\n", 0);  # logout
+        close (SOCKET);              # close connection
     }
     return();
 }
