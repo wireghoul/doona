@@ -3,7 +3,6 @@ use Socket;
 
 # lame whois plugin :)
 
-# \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 # create a new instance of this object
 sub new {
     my $this = {};
@@ -11,7 +10,6 @@ sub new {
     return $this;
 }
 
-# \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 # initialise some parameters
 sub init {
     my $this = shift;
@@ -26,22 +24,18 @@ sub init {
     $this->{vrfy} = "";
 }
 
-# \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 # how to quit ?
 sub getQuit {
     return("");
 }
 
-# \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 # what to test without doing a login before
-# ..mainly the login stuff *g*
 sub getLoginarray {
     my $this = shift;
     @Loginarray = ("");
     return (@Loginarray);
 }
 
-# \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 # which commands does this protocol know ?
 sub getCommandarray {
     my $this = shift;
@@ -59,16 +53,12 @@ sub getCommandarray {
     return(@cmdArray);
 }
 
-# \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 # what to send to login ?
 sub getLogin {
     my $this = shift;
-    @login = ("");
-    return(@login);
+    return("");
 }
 
-# \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-# here we can test everything besides buffer overflows and format strings
 sub testMisc {
     my $this = shift;
     return();
