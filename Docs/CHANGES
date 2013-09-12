@@ -1,3 +1,18 @@
+[ 0.7 ]
+- resolved the need for a hardcoded plugin list
+- added max requests option to allow parallel execution (easier than hacking in thread support)
+- added sigpipe handler to prevent silent exit if server unexpectedly closes the connection
+- added http proxy module
+- added more ftp test cases
+- added more rtsp test cases
+- added more http test cases
+- fixed a long standing BED bug where two test strings where accidentally concatenated
+- fixed a long standing BED bug where a hex representation of a 32bit integer was not max value as intended
+- aliased -m to -s (-s is getting deprecated/reassigned)
+- renamed plugins to modules (-m is for module)
+- ????
+
+
 [ 0.6 first doona release ]
 - added rtsp module
 - added tftp module
@@ -12,10 +27,10 @@
 - added signal handlers (displays testcase number on crtl^c or kill)
 - added feature to dump what a test case number would send
 - ftp module now uses anonymous login if username password not provided
-- Changed the order test cases are executed to allow corner cases to be tested earlier
-- Changed diagnostic output
-- New and improved help text
-- Some code cleanup
+- changed the order test cases are executed to allow corner cases to be tested earlier
+- changed diagnostic output
+- new and improved help text
+- some code cleanup
 
 [ 0.5 ]
 - fixed port for smtp module
@@ -29,29 +44,29 @@
 - started to write a socks5 plugin but then realized this is pretty boring, because
         you have to provide the nessecairy lengths on your own... 
         so only buffer underuns are checked here...
-- Added a new option -o to specify the timeOut... this is useful if a server bans
+- added a new option -o to specify the timeOut... this is useful if a server bans
         for too fast connection retries, or when simply sending the latest two testcases
         after crashing dont reproduce the crash
 - new module, socks4... yeah I _am_ bored :)
 - new module: lpd ( unfinished... )
 - new, lame module: finger :)
-- Beautified the code
-- New module: PJL
-- Added a status bar ( pls, dont look how i did it... )
-- Fixed some errors with udp
+- beautified the code
+- new module: PJL
+- added a status bar ( pls, dont look how i did it... )
+- fixed some errors with udp
 - reniced some output... :)
 - local tcp/udp port can now be specified too
 
 
 [ 0.3 ]
 
-- New modules: HTTP, IRC
-- A new method to check whether server is still alive
-- Possibility to use udp and tcp
+- new modules: HTTP, IRC
+- a new method to check whether server is still alive
+- possibility to use udp and tcp
 
 
 [ 0.2 ]
 
-- New structure of bed, simple modules for each service
-- New services support: SMTP, POP
+- new structure of bed, simple modules for each service
+- new services support: SMTP, POP
 
