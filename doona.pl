@@ -12,15 +12,15 @@ use Config;
 #use strict;
 #use warnings;
 my $SOCKET = "";
+my $VERSION = '0.7';
+
 
 $SIG{'INT'} = \&sigHandler;
 $SIG{'TERM'} = \&sigHandler;
 $SIG{'PIPE'} = \&sigHandler;
 
-# which plugins do we support? insert your plugin ( dummy ) here...
-my @plugins = ( "ftp", "smtp", "pop", "http", "irc", "imap", "pjl", "lpd", "finger", "socks4", "socks5", 'tftp', 'rtsp', 'whois', 'proxy');
+my @modules = map { s!bedmod/(.*)\.pm!$1!; $_ } glob("bedmod/*.pm");
 
-# what we test...
 # the hope is to overwrite a return pointer on the stack,
 # making the server execute invalid code and crash
 my @overflowstrings = ("A" x 33, "A" x 254, "A" x 255, "A" x 1023, "A" x 1024, "A" x 2047, "A" x 2048, "A" x 5000, "A" x 10000, "\\" x 200, "/" x 200, " " x 9000, "AA " x 200);
@@ -28,25 +28,32 @@ my @formatstrings = ("%s" x 4, "%s%p%x%d", "%s" x 8, "%s" x 15, "%s" x 30, "%.10
 
 # three ansi overflows, two ansi format strings, two OEM Format Strings
 my @unicodestrings = ("\0x99"x4, "\0x99"x512, "\0x99"x1024, "\0xCD"x10, "\0xCD"x40, "\0xCB"x10, "\0xCB"x40);
-my @largenumbers = ("255", "256", "257", "65535", "65536", "65537", "16777215", "16777216", "16777217", "0xfffffff", "-1", "-268435455", "-20");
-my @miscstrings = ("/", "%0xa", "+", "<", ">", "%". "-", "+", "*", ".", ":", "&", "%u000", "\r", "\r\n", "\n");
+my @largenumbers = (
+    "255", "256", "257", 
+    "65535", "65536", "65537", 
+    "16777215", "16777216", "16777217", 
+    "0xffffffff", "2147483647", "2147483648", "2147483649",
+    "4294967295", "9223372036854775807", "18446744073709551615",
+    "-1", "-268435455", "-20",
+    "2.2250738585072011e-308",
+);
+my @miscstrings = ("/", "\\", "%0xa", " ", "+", "<", ">", "<>", "%", "-", "+", "*", ".", ":", "&", "%u000", "\t", "\r", "\r\n", "\n");
 my $idx = 0;
 my $prevfuzz = '';
-print "\n Doona 0.6 by Wireghoul (www.justanotherhacker.com) based on BED by mjm and snakebyte\n\n";
+print "\n Doona $VERSION by Wireghoul (www.justanotherhacker.com) based on BED by mjm and snakebyte\n\n";
 
 # get the parameters we need for every test
-getopts('s:t:o:p:r:u:v:w:x:dh');
+getopts('m:s:t:o:p:r:u:v:w:x:M:dh');
+$opt_s = $opt_m if ($opt_m);
 &usage unless($opt_s);
 $opt_s = lc($opt_s);                         # convert it to lowercase
 
 # load the specified module
 my $module = undef;
-foreach my $plug (@plugins){
-    if ( $opt_s eq $plug ){
-        eval("use bedmod::$plug;");
-        $a = "bedmod::$plug";
+if ( -f "bedmod/$opt_s.pm"){
+        eval("use bedmod::$opt_s;");
+        $a = "bedmod::$opt_s";
         $module = new $a;
-    }
 }
 
 &usage unless(defined $module);
@@ -57,9 +64,9 @@ my %special_cfg=(
     "o" => "$opt_o",                           # timeOut
     "p" => "$opt_p",                           # port
     "r" => "$opt_r",                           # resume test case number
+    'M' => "$opt_M",                           # Max requests to perform
     'd' => "$opt_d",                           # Print fuzz case to screen and quit
-
-    "u" => "$opt_u",                           # special parameters for the plugin...
+    "u" => "$opt_u",                           # special parameters for the module...
     "v" => "$opt_v",
     "w" => "$opt_w",
     "x" => "$opt_x"
@@ -145,6 +152,8 @@ sub testThis(){
             print ".";
             $idx++;
             if ($special_cfg{'r'} > $idx) { next; }
+            $special_cfg{'M'}--;
+            if ($special_cfg{'M'} < 0) { print "\nMax requests ($opt_M) completed, index: ". ($idx - 1) ."\n"; exit }
             $prevfuzz = $command;
             $command = $cmd;
             $command =~ s/XAXAX/$LS/ig;                   # prepare the string
@@ -154,10 +163,10 @@ sub testThis(){
               my $iaddr = inet_aton($module->{target})             || die "Unknown host: $module->{target}\n";
               my $paddr = sockaddr_in($module->{port}, $iaddr)     || die "getprotobyname: $!\n";
               my $proto = getprotobyname($module->{proto})         || die "getprotobyname: $!\n";
-              socket(SOCKET, PF_INET, $socktype, $proto)        || die "socket: $!\n";
+              socket(SOCKET, PF_INET, $socktype, $proto)           || die "socket: $!\n";
               my $sockaddr = sockaddr_in($module->{sport}, INADDR_ANY);
               while ( !bind(SOCKET, $sockaddr) ) {}         # we need to bind for LPD for example
-              connect(SOCKET, $paddr)                           || die "connection attempt failed: $!, previous command was: ($idx) $prevfuzz\n";
+              connect(SOCKET, $paddr)                             || die "connection attempt failed: $!, during $cmd2 ($idx)\n";
             }
 
             # login ...
@@ -175,17 +184,17 @@ sub testThis(){
             send(SOCKET, $command, 0);                    # send the attack and verify that the server is still alive
             # Is there a possibility to check within connection?
             if ($module->{vrfy} ne "") {
-                send(SOCKET, $module->{vrfy},0)               || die "Problem (1) occured with $cmd2 ($idx)\n";
+                send(SOCKET, $module->{vrfy},0)                  || die "Problem (1) occured with $cmd2 ($idx)\n";
                 my $recvbuf = <SOCKET>                           || die "Problem (2) occured with $cmd2 ($idx)\n";
                 send(SOCKET, $quit, 0);           # close the connection
                 close SOCKET;
             } else {
                 close SOCKET;
-                $iaddr = inet_aton($module->{target})             || die "Unknown host: $module->{target}\n";
-                $paddr = sockaddr_in($module->{port}, $iaddr)     || die "getprotobyname: $!\n";
-                $proto = getprotobyname($module->{proto})         || die "getprotobyname: $!\n";
-                socket(SOCKET, PF_INET, $socktype, $proto)        || die "socket: $!\n";
-                connect(SOCKET, $paddr)                           || die "Problem (3) occured with $cmd2 ($idx)\n";
+                $iaddr = inet_aton($module->{target})            || die "Unknown host: $module->{target}\n";
+                $paddr = sockaddr_in($module->{port}, $iaddr)    || die "getprotobyname: $!\n";
+                $proto = getprotobyname($module->{proto})        || die "getprotobyname: $!\n";
+                socket(SOCKET, PF_INET, $socktype, $proto)       || die "socket: $!\n";
+                connect(SOCKET, $paddr)                          || die "Problem (3) occured with $cmd2 ($idx)\n";
                 close SOCKET;
             }
 
@@ -199,18 +208,18 @@ sub testThis(){
 sub usage {
     print qq~Usage:
 
- $0 -s [plugin] <options>
+ $0 -m [module] <options>
 
- -s <plugin>   = ~ . join('/', map(uc, @plugins)). qq~
+ -m <module>   = ~ . join('/', map(uc, @modules)). qq~
  -t <target>   = Host to check (default: localhost)
  -p <port>     = Port to connect to (default: module specific standard port)
  -o <timeout>  = seconds to wait after each test (default: 2 seconds)
  -r <index>    = Resumes fuzzing at test case index
  -d            = Dump test case to stdout (use in combination with -r)
  -h            = Help (this text)
- use "$0 -s <plugin> -h" for plugin specific option.
+ use "$0 -m [module] -h" for module specific option.
 
- Only -s is a mandatory switch.
+ Only -m is a mandatory switch.
 
 ~;
     if ($opt_h) {
