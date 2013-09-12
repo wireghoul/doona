@@ -192,7 +192,7 @@ sub testMisc {
         send(SOCKET, "CWD $Directory\r\n", 0);      # send the traversal string
         # clear the buffer, by waiting for :
         # 501 550 250 553
-        do { $recvbuf = <SOCKET>; } while( ($recvbuf !~ /550/) && ($recvbuf !~ /250/) && ($recvbuf !~ /553/) && ($recvbuf !~ /501/));	# receive answer
+        do { $recvbuf = <SOCKET>; } while( ($recvbuf !~ /550/) && ($recvbuf !~ /250/) && ($recvbuf !~ /553/) && ($recvbuf !~ /501/)); # receive answer
         send(SOCKET, "PWD\r\n", 0);                 # get new directory
         $newDir = <SOCKET>;
 
