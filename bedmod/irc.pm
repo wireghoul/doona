@@ -55,6 +55,7 @@ sub getCommandarray {
     # the XAXAX will be replaced with the buffer overflow / format string
     # just comment them out if you don't like them..
     @cmdArray = (
+        "XAXAX\r\n",
         "NICK XAXAX\r\n",
         "JOIN XAXAX\r\n",
         "PART XAXAX\r\n",
