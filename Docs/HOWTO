@@ -5,7 +5,7 @@
 Using BED is quit simple :) Decide which protocol you want to stress test
 and start bed using the commandline
 
- perl bed.pl -s plugin -t 192.168.0.1
+ perl bed.pl -m module -t 192.168.0.1
 
 BED will then run for a while, any maybe report to you that a connection attempt
 to the service failed. If this is the case you might have detected a bug. Next step
