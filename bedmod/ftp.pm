@@ -137,7 +137,7 @@ sub getCommandarray {
         "SITE CHMOD 777 XAXAX\r\n",
         "SITE UMASK XAXAX\r\n",
         "SIZE XAXAX\r\n",
-        "SIZW /XAXAX\r\n",
+        "SIZE /XAXAX\r\n",
         "SMNT XAXAX\r\n",
         "STOU XAXAX\r\n",
         "STRU XAXAX\r\n",
