@@ -126,6 +126,9 @@ sub getLogin {
     my $this = shift;
     @login = (
         "GET / HTTP/1.0\r\n",
+        "POST / HTTP/1.0\r\n",
+        "HEAD / HTTP/1.0\r\n",
+        "GET / HTTP/1.1\r\n",
       );
     return(@login);
 }
