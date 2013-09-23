@@ -6,11 +6,14 @@
 - added more ftp test cases
 - added more rtsp test cases
 - added more http test cases
+- added more irc test cases
 - fixed a long standing BED bug where two test strings where accidentally concatenated
 - fixed a long standing BED bug where a hex representation of a 32bit integer was not max value as intended
 - aliased -m to -s (-s is getting deprecated/reassigned)
 - renamed plugins to modules (-m is for module)
-- ????
+- removed directory traversal testing code from ftp module
+- rewrote misc testing procedure to test specific edge cases
+- added support for multiple setup/prefix/verbs, ie: fuzzing Host headers with GET/POST/HEAD requests
 
 
 [ 0.6 first doona release ]
