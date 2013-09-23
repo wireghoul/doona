@@ -85,11 +85,11 @@ if ($special_cfg{'o'} eq "") { $module->{timeout}='2'; }
 else { $module->{timeout} = $special_cfg{'o'}; }
 
 $module->init(%special_cfg);
-$num_threads = 4; # Run with 4 threads by defaults
+# $num_threads = 4; # Wishlist: Run with 4 threads by defaults
 
 # test stuff that might happen during login
 my @cmdArray = $module->getLoginarray;          # which login stuff do we test
-
+my @login = ("");
 if ( $cmdArray[0] ne "" ){
     print " + Buffer overflow testing\n";
     &testThis(@overflowstrings);
@@ -100,7 +100,7 @@ if ( $cmdArray[0] ne "" ){
 # test the stuff that might happen during normal protocol events ( after login )
 print "* Normal tests\n";
 @cmdArray = $module->getCommandarray;
-my @login = $module->getLogin;
+@login = $module->getLogin;
 print " + Buffer overflow testing\n";
 &testThis(@overflowstrings);
 print " + Formatstring testing\n";
@@ -128,6 +128,7 @@ exit(0);
 
 # this function tests each of the two arrays ( buffer overflow and format string )
 sub testThis(){
+    foreach my $log (@login) {
     my @testArray = @_;
     my $command;
     my $socktype;
@@ -147,12 +148,16 @@ sub testThis(){
         $cmd2 =~ s/\n|\r|[\00-\33]//ig;                              # remove \r and \n for nice displaying
         $cmd2 = substr($cmd2, 0, 30);
 
-        print "\t\ttesting: $count/$total\t$cmd2 ";
+        my $log2 = $log;
+        $log2 =~ s/\n|\r|[\00-\33]//ig;
+        $log2 = substr($log2, 0, 10);
+
+        print "\ttesting: $count/$total\t$log2 [$cmd2] ";
         foreach my $LS (@testArray){
             print ".";
             $idx++;
             if ($special_cfg{'r'} > $idx) { next; }
-            $special_cfg{'M'}--;
+            if ($opt_M) { $special_cfg{'M'}--; }
             if ($special_cfg{'M'} < 0) { print "\nMax requests ($opt_M) completed, index: ". ($idx - 1) ."\n"; exit }
             $prevfuzz = $command;
             $command = $cmd;
@@ -169,17 +174,17 @@ sub testThis(){
               connect(SOCKET, $paddr)                             || die "connection attempt failed: $!, during $cmd2 ($idx)\n";
             }
 
-            # login ...
-            foreach my $log (@login){
+            # login
+            #foreach my $log (@login){
                 if ( $log ne "" ){
-                  if ($special_cfg{'d'}) { 
-                    print "$log"; 
+                  if ($special_cfg{'d'}) {
+                    print "$log";
                   } else {
                     send(SOCKET, $log, 0);
                     sleep(1);                     # some daemons need some time to reply
                   }
                 }
-            }
+            #}
             if ($special_cfg{'d'}) { print "$command\\r\\n\n--cut--\n"; exit; }
             send(SOCKET, $command, 0);                    # send the attack and verify that the server is still alive
             # Is there a possibility to check within connection?
@@ -198,9 +203,10 @@ sub testThis(){
                 close SOCKET;
             }
 
-            sleep($module->{timeout});                                             # some servers would kick us for too fast logins
+            sleep($module->{timeout});                                             # some servers would kick us for too fast rogins
         }
         print " ($idx)\n";
+    }
     }
 }
 
