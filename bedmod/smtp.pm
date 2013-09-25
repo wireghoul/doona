@@ -35,7 +35,12 @@ sub getQuit{
 }
 
 sub getLoginarray {
-    return("");
+    return(
+        "XAXAX\r\n",
+        "HELO XAXAX\r\n",
+        "EHLO XAXAX\r\n",
+        "HELP XAXAX\r\n",
+    );
 }
 
 sub getCommandarray {
@@ -45,9 +50,8 @@ sub getCommandarray {
     # just comment them out if you don't like them..
     @cmdArray = (
         "EXPN XAXAX\r\n",
-        "EHLO XAXAX\r\n",
-        "HELO XAXAX\r\n",
         "MAIL FROM: XAXAX\r\n",
+        "MAIL FROM: <XAXAX>\r\n",
         "MAIL FROM: <$this->{mail}> XAXAX\r\n",
         "MAIL FROM: <$this->{mail}> RET=XAXAX\r\n",
         "MAIL FROM: <$this->{mail}> ENVID=XAXAX\r\n",
@@ -59,8 +63,15 @@ sub getCommandarray {
         "MAIL FROM: <$this->{mail}>\r\nRCPT TO: <$mailaccount> ORCPT=XAXAX\r\n",
         "HELP XAXAX\r\n",
         "VRFY XAXAX\r\n",
+        "RCTP TO: XAXAX\r\n",
+        "RCTP TO: <XAXAX>\r\n",
+        "RCPT TO: <$mailaccount> XAXAX\r\n",
+        "RCPT TO: <$mailaccount> NOTIFY=XAXAX\r\n",
+        "RCPT TO: <$mailaccount> ORCPT=XAXAX\r\n",
         "RSET XAXAX\r\n",
         "AUTH mechanism XAXAX\r\n",
+        "DATA XAXAX\r\n",
+        "DATA\r\nXAXAX\r\n.",
         "XAXAX\r\n"
       );
     return(@cmdArray);
