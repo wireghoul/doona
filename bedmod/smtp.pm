@@ -68,7 +68,10 @@ sub getCommandarray {
 
 sub getLogin {
     my $this = shift;
-    @login = ("HELO\r\n");
+    @login = (
+        "HELO doona.pl\r\n",
+        "EHLO doona.pl\r\n",
+    );
     return(@login);
 }
 
