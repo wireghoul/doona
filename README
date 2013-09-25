@@ -1,5 +1,5 @@
 
-        [ Bruteforce Exploit Detector - Doona fork ]
+        [ Doona - Network fuzzing tool ]
 
 .:: About  ::.
 
@@ -16,9 +16,11 @@
 
 .:: Version ::.
 
-  0.6 - Doona release
+  0.7 - Multi verb support, more fuzz cases and bug fixes
+  0.6 - First official doona release
   0.5 - Fork from BED
 
+  Full details of changes can be found in the changelog (Docs/CHANGES)
 
 .:: License ::.
 
