@@ -12,8 +12,10 @@
 - aliased -m to -s (-s is getting deprecated/reassigned)
 - renamed plugins to modules (-m is for module)
 - removed directory traversal testing code from ftp module
-- rewrote misc testing procedure to test specific edge cases
+- rewrote/broke misc testing procedure to test specific edge cases, needs redesign
 - added support for multiple setup/prefix/verbs, ie: fuzzing Host headers with GET/POST/HEAD requests
+- fixed long standing BED bug in the smtp module where it wouldn't greet the mail server correctly with HELO
+- added more smtp test cases
 
 
 [ 0.6 first doona release ]
