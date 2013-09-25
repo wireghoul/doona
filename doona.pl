@@ -12,7 +12,7 @@ use Config;
 
 #use strict;
 #use warnings;
-my $SOCKET = "";
+my $SOCKET;
 my $VERSION = '0.7';
 
 $SIG{'INT'} = \&sigHandler;
@@ -197,9 +197,9 @@ sub testThis() {
                     close SOCKET;
                 } else {
                     close SOCKET;
-                    $iaddr = inet_aton($module->{target})            || die "Unknown host: $module->{target}\n";
-                    $paddr = sockaddr_in($module->{port}, $iaddr)    || die "getprotobyname: $!\n";
-                    $proto = getprotobyname($module->{proto})        || die "getprotobyname: $!\n";
+                    my $iaddr = inet_aton($module->{target})            || die "Unknown host: $module->{target}\n";
+                    my $paddr = sockaddr_in($module->{port}, $iaddr)    || die "getprotobyname: $!\n";
+                    my $proto = getprotobyname($module->{proto})        || die "getprotobyname: $!\n";
                     socket(SOCKET, PF_INET, $socktype, $proto)       || die "socket: $!\n";
                     connect(SOCKET, $paddr)                          || die "Problem (3) occured with $cmd2 ($idx)\n";
                     close SOCKET;
@@ -224,6 +224,7 @@ sub usage {
  -o <timeout>  = seconds to wait after each test (default: 2 seconds)
  -r <index>    = Resumes fuzzing at test case index
  -d            = Dump test case to stdout (use in combination with -r)
+ -M <num>      = Exit after executing <num> number of fuzz cases
  -h            = Help (this text)
  use "$0 -m [module] -h" for module specific option.
 
