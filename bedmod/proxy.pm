@@ -105,6 +105,7 @@ sub getLogin {
     my $this = shift;
     @login = (
         "GET http://127.0.0.2/ HTTP/1.0\r\n",
+        "POST http://127.0.0.2/ HTTP/1.0\r\n",
       );
     return(@login);
 }
