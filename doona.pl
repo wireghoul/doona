@@ -129,19 +129,20 @@ exit(0);
 
 # this function tests each of the two arrays ( buffer overflow and format string )
 sub testThis() {
+    my $count = 0;
     foreach my $log (@login) {
         my @testArray = @_;
         my $command;
         my $socktype;
-        if ( $module->{proto} eq "udp" ) {
+        if ( $module->{proto} eq "udp" ) {i
             $socktype = SOCK_DGRAM;
         } else {
             $socktype = SOCK_STREAM;
         }
         $|=1; #Auto flush output for more timely screen updates
-        my $count = 0;
+        # my $count = 0;
         my $quit = $module->getQuit;
-        my $total = scalar(@cmdArray);
+        my $total = scalar(@cmdArray)*scalar(@login);
         foreach my $cmd (@cmdArray) {
             $count++;
 
