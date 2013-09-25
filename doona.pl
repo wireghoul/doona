@@ -112,8 +112,8 @@ print " + random number testing\n";
 &testThis(@largenumbers);
 
 # make the module test all other stuff
-print " + Other tests\n";
-$module->testMisc();
+#print " + Other tests\n";
+#$module->testMisc();
 
 # test different sizes
 for (my $i = 1; $i < 20; $i++ ) {
