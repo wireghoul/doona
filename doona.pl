@@ -27,7 +27,7 @@ my @overflowstrings = ("A" x 33, "A" x 254, "A" x 255, "A" x 1023, "A" x 1024, "
 my @formatstrings = ("%s" x 4, "%s%p%x%d", "%s" x 8, "%s" x 15, "%s" x 30, "%.1024d", "%.2048d", "%.4096d", '%@' x 53, "%.16i705u%2\$hn");
 
 # three ansi overflows, two ansi format strings, two OEM Format Strings
-my @unicodestrings = ("\0x99" x 4, "\0x99" x 512, "\0x99" x 1024, "\0xCD" x 10, "\0xCD" x 40, "\0xCB" x 10, "\0xCB"x40);
+my @unicodestrings = ("\x99" x 4, "\x99" x 512, "\x99" x 1024, "\xCD" x 10, "\xCD" x 40, "\xCB" x 10, "\xCB"x40);
 my @largenumbers = (
     "255", "256", "257",
     "65535", "65536", "65537",

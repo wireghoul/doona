@@ -16,6 +16,7 @@
 - added support for multiple setup/prefix/verbs, ie: fuzzing Host headers with GET/POST/HEAD requests
 - fixed long standing BED bug in the smtp module where it wouldn't greet the mail server correctly with HELO
 - added more smtp test cases
+- Fixed long standing BED bug in escaped Unicode strings
 
 
 [ 0.6 first doona release ]
