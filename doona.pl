@@ -24,16 +24,17 @@ my @modules = map { s!bedmod/(.*)\.pm!$1!; $_ } glob("bedmod/*.pm");
 # the hope is to overwrite a return pointer on the stack,
 # making the server execute invalid code and crash
 my @overflowstrings = ("A" x 33, "A" x 254, "A" x 255, "A" x 1023, "A" x 1024, "A" x 2047, "A" x 2048, "A" x 5000, "A" x 10000, "\\" x 200, "/" x 200, " " x 9000, "AA " x 200);
-my @formatstrings = ("%s" x 4, "%s%p%x%d", "%s" x 8, "%s" x 15, "%s" x 30, "%.1024d", "%.2048d", "%.4096d", '%@' x 53, "%.16705u%2\$hn");
+my @formatstrings = ("%s" x 4, "%s%p%x%d", "%s" x 8, "%s" x 15, "%s" x 30, "%.1024d", "%.2048d", "%.4096d", '%@' x 53, "%.16i705u%2\$hn");
 
 # three ansi overflows, two ansi format strings, two OEM Format Strings
-my @unicodestrings = ("\0x99"x4, "\0x99"x512, "\0x99"x1024, "\0xCD"x10, "\0xCD"x40, "\0xCB"x10, "\0xCB"x40);
+my @unicodestrings = ("\0x99" x 4, "\0x99" x 512, "\0x99" x 1024, "\0xCD" x 10, "\0xCD" x 40, "\0xCB" x 10, "\0xCB"x40);
 my @largenumbers = (
     "255", "256", "257",
     "65535", "65536", "65537",
     "16777215", "16777216", "16777217",
-    "0xffffffff", "2147483647", "2147483648", "2147483649",
-    "4294967295", "9223372036854775807", "18446744073709551615",
+    ""2147483647", "2147483648", "2147483649",
+    "0xfffffffe", "0xffffffff", "4294967295",
+    "9223372036854775807", "18446744073709551615",
     "-1", "-268435455", "-20",
     "2.2250738585072011e-308",
   );
