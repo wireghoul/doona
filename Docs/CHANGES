@@ -17,6 +17,7 @@
 - fixed long standing BED bug in the smtp module where it wouldn't greet the mail server correctly with HELO
 - added more smtp test cases
 - Fixed long standing BED bug in escaped Unicode strings
+- Added more large integer and formatstring fuzz strings
 
 
 [ 0.6 first doona release ]
