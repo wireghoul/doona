@@ -32,7 +32,7 @@ my @largenumbers = (
     "255", "256", "257",
     "65535", "65536", "65537",
     "16777215", "16777216", "16777217",
-    ""2147483647", "2147483648", "2147483649",
+    "2147483647", "2147483648", "2147483649",
     "0xfffffffe", "0xffffffff", "4294967295",
     "9223372036854775807", "18446744073709551615",
     "-1", "-268435455", "-20",
@@ -153,9 +153,9 @@ sub testThis() {
 
             my $log2 = $log;
             $log2 =~ s/\n|\r|[\00-\33]//ig;
-            $log2 = substr($log2, 0, 10);
+            $log2 = substr($log2, 0, 20);
 
-            print "\ttesting: $count/$total\t$log2 [$cmd2] ";
+            printf "%5d/$total  $log2 [$cmd2] ", $count;
             foreach my $LS (@testArray){
                 print ".";
                 $idx++;

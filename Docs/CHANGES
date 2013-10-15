@@ -16,8 +16,9 @@
 - added support for multiple setup/prefix/verbs, ie: fuzzing Host headers with GET/POST/HEAD requests
 - fixed long standing BED bug in the smtp module where it wouldn't greet the mail server correctly with HELO
 - added more smtp test cases
-- Fixed long standing BED bug in escaped Unicode strings
-- Added more large integer and formatstring fuzz strings
+- fixed long standing BED bug in escaped Unicode strings
+- added more large integer and formatstring fuzz strings
+- fixed column alignment in the progress output
 
 
 [ 0.6 first doona release ]
@@ -66,14 +67,12 @@
 
 
 [ 0.3 ]
-
 - new modules: HTTP, IRC
 - a new method to check whether server is still alive
 - possibility to use udp and tcp
 
 
 [ 0.2 ]
-
 - new structure of bed, simple modules for each service
 - new services support: SMTP, POP
 
