@@ -7,31 +7,35 @@ use Socket;
 
 # \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 # create a new instance of this object
-sub new{
-	my $this = {};
-	$this->{username}     = undef;
-	bless $this;
-	return $this;
+sub new {
+    my $this = {};
+    $this->{username} = undef;
+    bless $this;
+    return $this;
 }
 
 # \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 # initialise some parameters
-sub init{
+sub init {
     my $this = shift;
-    %special_cfg=@_;
+    %special_cfg = @_;
 
     # Set protocol tcp/udp
-    $this->{proto} = "tcp"; 
+    $this->{proto} = "tcp";
 
     # check for missing args, set target and host
     # every module has to do this
-    if ($special_cfg{'p'} eq "") { $this->{port}='1080'; }
-      else { $this->{port} = $special_cfg{'p'}; }
+    if ( $special_cfg{'p'} eq "" ) {
+        $this->{port} = '1080';
+    }
+    else {
+        $this->{port} = $special_cfg{'p'};
+    }
     $this->{sport} = 0;
-    $this->{vrfy} = "";
+    $this->{vrfy}  = "";
 
-    if ( $special_cfg{'u'} eq "" )
-        &usage(){
+    if ( $special_cfg{'u'} eq "" ) {
+        &usage();
         exit(1);
     }
 
@@ -41,56 +45,53 @@ sub init{
 
 # \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 # how to quit ?
-sub getQuit{
-	return("");
+sub getQuit {
+    return ("");
 }
 
 # \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 # what to test without doing a login before
 # ..mainly the login stuff *g*
 sub getLoginarray {
-   my $this = shift;
-   @Loginarray = ("");
-   return (@Loginarray);
+    my $this = shift;
+    @Loginarray = ("");
+    return (@Loginarray);
 }
-
 
 # \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 # which commands does this protocol know ?
 sub getCommandarray {
-	my $this = shift;
+    my $this = shift;
 
-	# all there is to test is the username as far as it seems...
-	@cmdArray = (
-#		"XAXAX\n",
-               # we use protocol version 04
-               # destination port is 6668
-               # destination ip is 192.168.0.1
-               "\x04\x01\x1a\x0c\xc0\xA8\x00\x01XAXAX\x00",        # connect
-               "\x04\x02\x1a\x0c\xc0\xA8\x00\x01XAXAX\x00",        # bind
-               "\x04\x01\x1a\x0c\x00\x00\x00\x01$this->{username}\x00XAXAX",        # connect socks4a
+    # all there is to test is the username as far as it seems...
+    @cmdArray = (
 
-               "\x04\x02\x1a\x0c\x00\x00\x00\x01$this->{username}\x00XAXAX"        # bind socks4a
+        "XAXAX\n",
+        # we use protocol version 04
+        # destination port is 6668
+        # destination ip is 192.168.0.1
+        "\x04\x01\x1a\x0c\xc0\xA8\x00\x01XAXAX\x00",    # connect
+        "\x04\x02\x1a\x0c\xc0\xA8\x00\x01XAXAX\x00",    # bind
+        "\x04\x01\x1a\x0c\x00\x00\x00\x01$this->{username}\x00XAXAX", # connect socks4a
+        "\x04\x02\x1a\x0c\x00\x00\x00\x01$this->{username}\x00XAXAX" # bind socks4a
 
-	);
-	return(@cmdArray);
+    );
+    return (@cmdArray);
 }
-
-
 
 # \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 # what to send to login ?
-sub getLogin{ 		# login procedure
-	my $this = shift;
-	@login = ("");
-	return(@login);
+sub getLogin {    # login procedure
+    my $this = shift;
+    @login = ("");
+    return (@login);
 }
 
 # \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 # here we can test everything besides buffer overflows and format strings
-sub testMisc{
-	my $this = shift;
-	return();
+sub testMisc {
+    my $this = shift;
+    return ();
 }
 
 sub usage {
