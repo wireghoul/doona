@@ -87,7 +87,7 @@ sub getLogin {                        # login procedure
         "\x05\x01\x02",
 
         #protocol #username len #username #pass len #password
-        "\x05$count1$this->{username}$count2$this->{password}";
+        "\x05$count1$this->{username}$count2$this->{password}",
     );
     return (@login);
 }
