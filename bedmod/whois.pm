@@ -49,6 +49,8 @@ sub getCommandarray {
         ".XAXAX\r\n",
         "XAXAX...\r\n",
         "*XAXAX\r\n",
+        "XAXAX.tld\r\n",
+        "domain.XAXAX\r\n"
       );
     return(@cmdArray);
 }
