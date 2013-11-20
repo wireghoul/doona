@@ -129,9 +129,9 @@ sub getLogin {
         "POST / HTTP/1.0\r\n",
         "HEAD / HTTP/1.0\r\n",
         "GET / HTTP/1.1\r\n",
-        "OPTIONS / HTTP/1.0\r\n";
+        "OPTIONS / HTTP/1.0\r\n",
         "PUT / HTTP/1.0\r\n",
-        "TRACE / HTTP/1.0\r\n"
+        "TRACE / HTTP/1.0\r\n",
       );
     return(@login);
 }

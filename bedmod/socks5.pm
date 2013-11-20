@@ -1,4 +1,4 @@
-package bedmod::socks4;
+package bedmod::socks5;
 use Socket;
 
 # socks5 plugin
@@ -78,8 +78,8 @@ sub getCommandarray {
 # what to send to login ?
 sub getLogin {                        # login procedure
     my $this = shift;
-    $count1 = char( length( $this->{username} ) );
-    $count2 = char( length( $this->{password} ) );
+    $count1 = length( $this->{username} );
+    $count2 = length( $this->{password} );
 
     @login = (
 
