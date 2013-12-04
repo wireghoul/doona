@@ -62,6 +62,7 @@ sub getLoginarray {
         "USER XAXAX\r\n",
         "USER XAXAX\r\nPASS password\r\n",
         "USER anonymous\r\nPASS XAXAX\r\n",
+        "USER XAXAX\r\nPASS password\r\nUSER $this->{username}\r\nPASS XAXAX\r\n",
         "USER $this->{username}\r\nPASS XAXAX\r\n",
         "PASS XAXAX\r\n"
       );
