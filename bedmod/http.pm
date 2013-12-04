@@ -50,6 +50,8 @@ sub getLoginarray {
         "GET /index.XAXAX HTTP/1.0\r\n\r\n",
         "GET /~XAXAX HTTP/1.0\r\n\r\n",
         "GET /?XAXAX HTTP/1.0\r\n\r\n",
+        "GET /?XAXAX=x HTTP/1.0\r\n\r\n",
+        "GET /?x=XAXAX HTTP/1.0\r\n\r\n",
         "GET / XAXAX\r\n\r\n",
         "GET / HTTP/XAXAX\r\n\r\n",
         "GET /XAXAX\r\n\r\n",
