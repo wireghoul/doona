@@ -29,7 +29,7 @@ sub init {
 
     # let's see if we got a correct login (skip if dump mode is set)
     if ($special_cfg{'d'}) { return; }
-    $iaddr = inet_aton($this->{target})             || die "Unknown host: $host\n";
+    $iaddr = inet_aton($this->{target})             || die "Unknown host: $this->{target}\n";
     $paddr = sockaddr_in($this->{port}, $iaddr)     || die "getprotobyname: $!\n";
     $proto = getprotobyname('tcp')                  || die "getprotobyname: $!\n";
     socket(SOCKET, PF_INET, SOCK_STREAM, $proto)    || die "socket: $!\n";
@@ -80,13 +80,17 @@ sub getCommandarray {
         "ABOR XAXAX\r\n",
         "ACCL XAXAX\r\n",
         "ACCT XAXAX\r\n",
+        "ADAT XAXAX\r\n",
         "ALLO XAXAX\r\n",
         "APPE XAXAX\r\n",
         "APPE /XAXAX\r\n",
+        "CCC XAXAX\r\n",
         "CDUP XAXAX\r\n",
+        "CONF XAXAX\r\n",
         "CWD XAXAX\r\n",
         "CEL XAXAX\r\n",
         "DELE XAXAX\r\n",
+        "ENC XAXA\r\n",
         "EPRT XAXAX\r\n",
         "EPRT |XAXAX|127.0.0.1|6275|\r\n",
         "EPRT |1|XAXAX|6275|\r\n",
@@ -94,15 +98,19 @@ sub getCommandarray {
         "EPSV XAXAX\r\n",
         "FEAT XAXAX\r\n",
         "HELP XAXAX\r\n",
+        "LANG XAXAX\r\n",
         "LIST XAXAX\r\n",
         "LIST -XAXAX\r\n",
         "LIST *XAXAX\r\n",
         "LOCK XAXAX\r\n",
         "LOCK / XAXAX\r\n",
+        "LPRT XAXAX\r\n",
+        "LPSV XAXAX\r\n",
         "MDTM XAXAX\r\n",
         "MDTM XAXAX file.txt\r\n",
         "MDTM 19990929043300 XAXAX\r\n",
         "MDTM 20031111111111+ XAXAX\r\n",
+        "MIC XAXAX\r\n",
         "MLST XAXAX\r\n",
         "MODE XAXAX\r\n",
         "MKD XAXAX\r\n",
@@ -116,8 +124,10 @@ sub getCommandarray {
         "OPTS XAXAX\r\n",
         "PASS XAXAX\r\n",
         "PASV XAXAX\r\n",
+        "PBSZ XAXAX\r\n",
         "PORT XAXAX\r\n",
         "PWD XAXAX\r\n",
+        "QUOTE XAXAX\r\n",
         "REIN XAXAX\r\n",
         "REST XAXAX\r\n",
         "RETR XAXAX\r\n",
@@ -157,7 +167,11 @@ sub getCommandarray {
         "XMD5 XAXAX\r\n",
         "XMKD XAXAX\r\n",
         "XPWD XAXAX\r\n",
+        "XRCP XAXAX\r\n",
         "XRMD XAXAX\r\n",
+        "XRSQ XAXAX\r\n",
+        "XSEM XAXAX\r\n",
+        "XSEN XAXAX\r\n",
       );
     return(@cmdArray);
 }
@@ -179,7 +193,7 @@ sub testMisc {
 
     @traversal = ("...", "%5c..%5c", ,"%5c%2e%2e%5c", "/././..", "/...", "/......", "\\...", "...\\", "....", "*", "\\*", "\\....", "*\\\\.....", "/..../", "/../../../", "\\..\\..\\..\\", "\@/..\@/..");
     foreach $Directory (@traversal){
-        $iaddr = inet_aton($this->{target})             || die "Unknown host: $host\n";
+        $iaddr = inet_aton($this->{target})             || die "Unknown host: $this->{target}\n";
         $paddr = sockaddr_in($this->{port}, $iaddr)     || die "getprotobyname: $!\n";
         $proto = getprotobyname('tcp')                  || die "getprotobyname: $!\n";
         socket(SOCKET, PF_INET, SOCK_STREAM, $proto)    || die "socket: $!\n";
