@@ -13,7 +13,7 @@ use Config;
 #use strict;
 #use warnings;
 my $SOCKET;
-my $VERSION = '0.7';
+my $VERSION = '0.8alpha';
 
 $SIG{'INT'} = \&sigHandler;
 $SIG{'TERM'} = \&sigHandler;

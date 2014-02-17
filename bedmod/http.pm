@@ -23,7 +23,7 @@ sub init {
     }
 
     if ($special_cfg{'d'}) { return; }
-    $iaddr = inet_aton($this->{target})             || die "Unknown host: $host\n";
+    $iaddr = inet_aton($this->{target})             || die "Unknown host: $this->{target}\n";
     $paddr = sockaddr_in($this->{port}, $iaddr)     || die "getprotobyname: $!\n";
     $proto = getprotobyname('tcp')                  || die "getprotobyname: $!\n";
     socket(SOCKET, PF_INET, SOCK_STREAM, $proto)    || die "socket: $!\n";

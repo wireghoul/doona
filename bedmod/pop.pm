@@ -29,7 +29,7 @@ sub init {
     $this->{username} = $special_cfg{'u'};
     $this->{password} = $special_cfg{'v'};
     $this->{vrfy}     = "NOOP\r\n";
-    $iaddr = inet_aton( $this->{target} ) || die "Unknown host: $host\n";
+    $iaddr = inet_aton( $this->{target} ) || die "Unknown host: $this->{target}\n";
     $paddr = sockaddr_in( $this->{port}, $iaddr ) || die "getprotobyname: $!\n";
     $proto = getprotobyname('tcp') || die "getprotobyname: $!\n";
     socket( SOCKET, PF_INET, SOCK_STREAM, $proto ) || die "socket: $!\n";

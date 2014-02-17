@@ -1,3 +1,8 @@
+[ 0.8 ]
+- Fixed some bugs in the smtp module
+- Fixed faulty error messages in pop, http, ftp, rtsp and proxy modules
+- Added more ftp test cases
+
 [ 0.7 ]
 - resolved the need for a hardcoded plugin list
 - added max requests option to allow parallel execution (easier than hacking in thread support)
