@@ -118,6 +118,7 @@ sub getCommandarray {
         "Range: bytes=0-1,XAXAX\r\n",
         "Content-Length: XAXAX\r\n\r\n",
         "Cookie: XAXAX\r\n\r\n",
+        "X-Headr: XAXAX\r\n XAXAX\r\n\r\n",
         "TE: XAXAX\r\n\r\n",
         "Upgrade: XAXAX\r\nConnection: upgrade\r\n\r\n",
       );
