@@ -135,7 +135,7 @@ sub testThis() {
         my @testArray = @_;
         my $command;
         my $socktype;
-        if ( $module->{proto} eq "udp" ) {i
+        if ( $module->{proto} eq "udp" ) {
             $socktype = SOCK_DGRAM;
         } else {
             $socktype = SOCK_STREAM;
