@@ -13,7 +13,7 @@ use Config;
 #use strict;
 #use warnings;
 my $SOCKET;
-my $VERSION = '0.8alpha';
+my $VERSION = '0.9';
 
 $SIG{'INT'} = \&sigHandler;
 $SIG{'TERM'} = \&sigHandler;
@@ -41,7 +41,7 @@ my @largenumbers = (
 my @miscstrings = ("/", "\\", "%0xa", " ", "+", "<", ">", "<>", "%", "-", "+", "*", ".", ":", "&", "%u000", "\t", "\r", "\r\n", "\n");
 my $idx = 0;
 my $prevfuzz = '';
-print "\n Doona $VERSION by Wireghoul (www.justanotherhacker.com) based on BED by mjm and snakebyte\n\n";
+print "\n Doona $VERSION by Wireghoul (www.justanotherhacker.com)\n\n";
 
 # get the parameters we need for every test
 getopts('m:s:t:o:p:r:u:v:w:x:M:dh');
@@ -166,7 +166,7 @@ sub testThis() {
                 $command = $cmd;
                 $command =~ s/XAXAX/$LS/ig;                   # prepare the string
                 if ($special_cfg{'d'}) {
-                    print "\nFuzz case: --copy--\n";
+                    print "\nFuzz case ($idx)\n--copy--\n";
                 } else {
                     my $iaddr = inet_aton($module->{target})             || die "Unknown host: $module->{target}\n";
                     my $paddr = sockaddr_in($module->{port}, $iaddr)     || die "getprotobyname: $!\n";
@@ -188,7 +188,7 @@ sub testThis() {
                 }
 
                 #}
-                if ($special_cfg{'d'}) { print "$command\\r\\n\n--cut--\n"; exit; }
+                if ($special_cfg{'d'}) { $command =~ s/\n/\\n/g;$command =~ s/\r/\\r/g; print "$command\n--cut--\n"; exit; }
                 send(SOCKET, $command, 0);                    # send the attack and verify that the server is still alive
                 # Is there a possibility to check within connection?
                 if ($module->{vrfy} ne "") {
