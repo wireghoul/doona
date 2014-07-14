@@ -16,6 +16,7 @@
 
 .:: Version ::.
 
+  0.8 - Bugfixes and more fuzz cases
   0.7 - Multi verb support, more fuzz cases and bug fixes
   0.6 - First official doona release
   0.5 - Fork from BED
@@ -40,10 +41,5 @@
 
   BED was written by:
   Eric Sesterhenn aka. 'Snakebyte'
-    -Mail: snakebyte@gmx.de
-    -Web:  www.snake-basket.de
-
   Martin J. Muench aka. 'mjm'
-    -Mail: mjm@codito.de
-    -Web:  www.codito.de
 
