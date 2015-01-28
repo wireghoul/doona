@@ -56,6 +56,11 @@ sub init{
 	$this->{vrfy} = "HELP\r\n";
 }
 
+# Perform a common action such as authenticating here
+# if it this check assume it has crashed
+sub health_check {
+}
+
 # \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 # how to quit ?
 sub getQuit{
