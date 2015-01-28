@@ -15,6 +15,7 @@ sub init {
     %special_cfg=@_;
 
     $this->{proto}="tcp";
+    $this->{healthy}="HTTP/";
 
     if ($special_cfg{'p'} eq "") {
         $this->{port}='8080';
@@ -23,12 +24,25 @@ sub init {
     }
 
     if ($special_cfg{'d'}) { return; }
+    die "Proxy server failed health check!\n" unless($this->health_check());
+#    $iaddr = inet_aton($this->{target})             || die "Unknown host: $this->{target}\n";
+#    $paddr = sockaddr_in($this->{port}, $iaddr)     || die "getprotobyname: $!\n";
+#    $proto = getprotobyname('tcp')                  || die "getprotobyname: $!\n";
+#    socket(SOCKET, PF_INET, SOCK_STREAM, $proto)    || die "socket: $!\n";
+#    connect(SOCKET, $paddr)                         || die "connection attempt failed: $!\n";
+#    send(SOCKET, "HEAD / HTTP/1.0\r\n\r\n", 0)      || die "HTTP request failed: $!\n";
+}
+
+sub health_check {
+    my $this = shift;
     $iaddr = inet_aton($this->{target})             || die "Unknown host: $this->{target}\n";
     $paddr = sockaddr_in($this->{port}, $iaddr)     || die "getprotobyname: $!\n";
     $proto = getprotobyname('tcp')                  || die "getprotobyname: $!\n";
     socket(SOCKET, PF_INET, SOCK_STREAM, $proto)    || die "socket: $!\n";
     connect(SOCKET, $paddr)                         || die "connection attempt failed: $!\n";
     send(SOCKET, "HEAD / HTTP/1.0\r\n\r\n", 0)      || die "HTTP request failed: $!\n";
+    my $resp = <SOCKET>;
+    return $resp =~ m/$this->{healthy}/;
 }
 
 sub getQuit {
@@ -89,6 +103,7 @@ sub getCommandarray {
         "Proxy-Authorization: XAXAX\r\n\r\n",
         "ChargeTo: XAXAX\r\n\r\n",
         "Pragma: XAXAX\r\n\r\n",
+        "Proxy-Connection: XAXAX\r\n\r\n",
         "Expect: XAXAX\r\n\r\n",
         "Range: XAXAX\r\n\r\n",
         "Range: bytes=1-XAXAX\r\n\r\n",
@@ -106,6 +121,10 @@ sub getLogin {
     @login = (
         "GET http://127.0.0.2/ HTTP/1.0\r\n",
         "POST http://127.0.0.2/ HTTP/1.0\r\n",
+        "CONNECT 127.0.0.1:80 HTTP/1.1\r\n",
+        "GET http://127.0.0.2/ HTTP/1.1\r\n",
+        "POST http://127.0.0.2/ HTTP/1.1\r\n",
+        "CONNECT 127.0.0.2:80 HTTP/1.0\r\n",
       );
     return(@login);
 }
