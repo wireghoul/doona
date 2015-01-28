@@ -25,12 +25,6 @@ sub init {
 
     if ($special_cfg{'d'}) { return; }
     die "HTTP server failed health check!\n" unless($this->health_check());
-#    $iaddr = inet_aton($this->{target})             || die "Unknown host: $this->{target}\n";
-#    $paddr = sockaddr_in($this->{port}, $iaddr)     || die "getprotobyname: $!\n";
-#    $proto = getprotobyname('tcp')                  || die "getprotobyname: $!\n";
-#    socket(SOCKET, PF_INET, SOCK_STREAM, $proto)    || die "socket: $!\n";
-#    connect(SOCKET, $paddr)                         || die "connection attempt failed: $!\n";
-#    send(SOCKET, "HEAD / HTTP/1.0\r\n\r\n", 0)      || die "HTTP request failed: $!\n";
 }
 
 sub health_check {
@@ -41,10 +35,7 @@ sub health_check {
     socket(SOCKET, PF_INET, SOCK_STREAM, $proto)    || die "socket: $!\n";
     connect(SOCKET, $paddr)                         || die "connection attempt failed: $!\n";
     send(SOCKET, "HEAD / HTTP/1.0\r\n\r\n", 0)      || die "HTTP request failed: $!\n";
-    #sleep 1;
     my $resp = <SOCKET>;
-    #print <SOCKET>;
-    #recv(SOCKET,$response, 1024);
     return $resp =~ m/$this->{healthy}/;
 }
 
