@@ -47,9 +47,10 @@ sub getCommandarray {
         "\x00\x01XAXAX\x00netascii\x00", #RRQ
         "\x00\x01XAXAX\x00octet\x000", #RRQ
         "\x00\x01XAXAX\x00mail\x00", #RRQ
-        "\x00\x01fuzz\x00XAXAX\x00", #RRQ
+        "\x00\x01"."fuzz\x00XAXAX\x00", #RRQ
         "\x00\x02\x41\x00XAXAX\x00", #WRQ
         "\x00\x03\x41\x00XAXAX\x00", #DATA?
+        "\x0c\x0dXAXAX\x00",
       );
     return(@cmdArray);
 }
