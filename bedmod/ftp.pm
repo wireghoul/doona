@@ -29,6 +29,31 @@ sub init {
 
     # let's see if we got a correct login (skip if dump mode is set)
     if ($special_cfg{'d'}) { return; }
+    $this->health_check();
+    #$iaddr = inet_aton($this->{target})             || die "Unknown host: $this->{target}\n";
+    #$paddr = sockaddr_in($this->{port}, $iaddr)     || die "getprotobyname: $!\n";
+    #$proto = getprotobyname('tcp')                  || die "getprotobyname: $!\n";
+    #socket(SOCKET, PF_INET, SOCK_STREAM, $proto)    || die "socket: $!\n";
+    #connect(SOCKET, $paddr)                         || die "connection attempt failed: $!\n";
+    #send(SOCKET, "USER $this->{username}\r\n", 0)   || die "USER failed: $!\n";
+    #$recvbuf = <SOCKET>;
+    #sleep(1);                                       # some ftp's need some time to reply
+    #send(SOCKET, "PASS $this->{password}\r\n", 0)   || die "PASS failed: $!\n";
+    #do {
+    #    $recvbuf = <SOCKET>;
+    #    #print ($recvbuf);
+    #    if ( $recvbuf =~ "530" ){
+    #        print ("Username or Password incorrect, can't login\n");
+    #        exit(1);
+    #    }
+    #    sleep(0.2);
+    #  } until ( $recvbuf =~ "230" );
+    #send(SOCKET, "QUIT\r\n", 0);
+    #close(SOCKET);
+}
+
+sub health_check {
+    my $this = shift;
     $iaddr = inet_aton($this->{target})             || die "Unknown host: $this->{target}\n";
     $paddr = sockaddr_in($this->{port}, $iaddr)     || die "getprotobyname: $!\n";
     $proto = getprotobyname('tcp')                  || die "getprotobyname: $!\n";
@@ -49,6 +74,7 @@ sub init {
       } until ( $recvbuf =~ "230" );
     send(SOCKET, "QUIT\r\n", 0);
     close(SOCKET);
+    return 1; # need to fix the above logic
 }
 
 sub getQuit {
