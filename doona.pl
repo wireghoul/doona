@@ -13,7 +13,7 @@ use Config;
 #use strict;
 #use warnings;
 my $SOCKET;
-my $VERSION = '0.9';
+my $VERSION = '1.0';
 
 $SIG{'INT'} = \&sigHandler;
 $SIG{'TERM'} = \&sigHandler;
@@ -44,7 +44,7 @@ my $prevfuzz = '';
 print "\n Doona $VERSION by Wireghoul (www.justanotherhacker.com)\n\n";
 
 # get the parameters we need for every test
-getopts('m:s:t:o:p:r:u:v:w:x:M:dh');
+getopts('m:s:t:o:p:r:u:v:w:x:M:c:dhk');
 $opt_s = $opt_m if ($opt_m);
 &usage unless($opt_s);
 $opt_s = lc($opt_s);                         # convert it to lowercase
@@ -66,6 +66,8 @@ my %special_cfg=(
     "p" => "$opt_p",                           # port
     "r" => "$opt_r",                           # resume test case number
     'M' => "$opt_M",                           # Max requests to perform
+    'c' => "$opt_c",                           # How often do we call health_check
+    'k' => "$opt_k",                           # Keep trying until a healt check passes
     'd' => "$opt_d",                           # Print fuzz case to screen and quit
     "u" => "$opt_u",                           # special parameters for the module...
     "v" => "$opt_v",
@@ -220,10 +222,12 @@ sub usage {
  $0 -m [module] <options>
 
  -m <module>   = ~ . join('/', map(uc, @modules)). qq~
+ -c <int>      = Execute a health check after every <int> fuzz cases
  -t <target>   = Host to check (default: localhost)
  -p <port>     = Port to connect to (default: module specific standard port)
  -o <timeout>  = seconds to wait after each test (default: 2 seconds)
  -r <index>    = Resumes fuzzing at test case index
+ -k            = Keep trying until server passes a health check
  -d            = Dump test case to stdout (use in combination with -r)
  -M <num>      = Exit after executing <num> number of fuzz cases
  -h            = Help (this text)
