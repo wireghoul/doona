@@ -6,6 +6,7 @@ use Socket;
 
 sub new{
     my $this = {};
+    $this->{healthy}=undef;
     bless $this;
     return $this;
 }
@@ -17,17 +18,12 @@ sub init{
     $this->{proto}="tcp";
 
     if ($special_cfg{'p'} eq "") {
-        $this->{port}='80';
+        $this->{port}='554';
     } else {
         $this->{port} = $special_cfg{'p'};
     }
-
-    $iaddr = inet_aton($this->{target})             || die "Unknown host: $this->{target}\n";
-    $paddr = sockaddr_in($this->{port}, $iaddr)     || die "getprotobyname: $!\n";
-    $proto = getprotobyname('tcp')                  || die "getprotobyname: $!\n";
-    socket(SOCKET, PF_INET, SOCK_STREAM, $proto)    || die "socket: $!\n";
-    connect(SOCKET, $paddr)                         || die "connection attempt failed: $!\n";
-    send(SOCKET, "HEAD / HTTP/1.0\r\n\r\n", 0)      || die "HTTP request failed: $!\n";
+    if ($special_cfg{'d'}) { return; }
+    die "RTSP server failed health check!\n" unless($this->health_check());
 }
 
 sub health_check {
@@ -37,7 +33,15 @@ sub health_check {
     $proto = getprotobyname('tcp')                  || die "getprotobyname: $!\n";
     socket(SOCKET, PF_INET, SOCK_STREAM, $proto)    || die "socket: $!\n";
     connect(SOCKET, $paddr)                         || die "connection attempt failed: $!\n";
-    send(SOCKET, "HEAD / HTTP/1.0\r\n\r\n", 0)      || die "HTTP request failed: $!\n";
+    send(SOCKET, "DESCRIBE / RTSP/1.0\r\n\r\n", 0)      || die "HTTP request failed: $!\n";
+    my $resp = <SOCKET>;
+    if (!$this->{healthy}) {
+          if ($resp =~ /200/) {
+              $this->{healthy}=$resp;
+          }
+          #      print "Set healthy: $resp";
+    }
+    return $resp =~ m/^$this->{healthy}$/;
 }
 
 sub getQuit{
@@ -51,6 +55,7 @@ sub getLoginarray {
         " XAXAX RTSP/1.0\r\nCSeq: 1\r\n\r\n",
         "XAXAX / RTSP/1.0\r\nCSeq: 1\r\n\r\n",
         "XAXAX rtsp://localhost/file.mpg\r\nCSeq: 1\r\n\r\n",
+        "XAXAX rtsp://localhost/file.mpg RTSP/1.0\r\nCSeq: 1\r\n\r\n",
         "OPTIONS XAXAX RTSP/1.0\r\nCSeq: 1\r\n\r\n",
         "OPTIONS /XAXAX RTSP/1.0\r\nCSeq: 1\r\n\r\n",
         "OPTIONS * XAXAX\r\nCSeq: 1\r\n\r\n",
@@ -60,14 +65,31 @@ sub getLoginarray {
         "DESCRIBE XAXAX://localhost/file.mpg RTSP/1.0\r\nCSeq: 1\r\n\r\n",
         "DESCRIBE rtsp://XAXAX/file.mpg RTSP/1.0\r\nCSeq: 1\r\n\r\n",
         "DESCRIBE rtsp://localhost/XAXAX RTSP/1.0\r\nCSeq: 1\r\n\r\n",
+        "DESCRIBE rtsp://localhost/XAXAX=0 RTSP/1.0\r\nCSeq: 1\r\n\r\n",
+        "DESCRIBE rtsp://localhost/trackID=XAXAX RTSP/1.0\r\nCSeq: 1\r\n\r\n",
+        "DESCRIBE rtsp://XAXAX\@localhost/file.mpg RTSP/1.0\r\nCSeq: 1\r\n\r\n",
+        "DESCRIBE rtsp://XAXAX:pass\@localhost/file.mpg RTSP/1.0\r\nCSeq: 1\r\n\r\n",
+        "DESCRIBE rtsp://user:XAXAX\@localhost/file.mpg RTSP/1.0\r\nCSeq: 1\r\n\r\n",
+        "DESCRIBE rtsp://XAXAX:XAXAX\@localhost/file.mpg RTSP/1.0\r\nCSeq: 1\r\n\r\n",
+        "DESCRIBE rtsp://localhost/file.mpg XAXAX\r\nCSeq: 1\r\n\r\n",
+        "DESCRIBE rtsp://localhost/file.mpg RTSP/XAXAX\r\nCSeq: 1\r\n\r\n",
         "SETUP XAXAX RTSP/1.0\r\nCSeq: 1\r\n\r\n",
         "SETUP XAXAX://localhost/file.mpg RTSP/1.0\r\nCSeq: 1\r\n\r\n",
         "SETUP rtsp://XAXAX/file.mpg RTSP/1.0\r\nCSeq: 1\r\n\r\n",
         "SETUP rtsp://localhost/XAXAX RTSP/1.0\r\nCSeq: 1\r\n\r\n",
+        "SETUP rtsp://localhost/file.mpg RTSP/1.0\r\nCSeq: 7\r\nContent-length: 3200\r\n\r\nXAXAX\r\n\r\n",
         "PLAY XAXAX RTSP/1.0\r\nCSeq: 1\r\n\r\n",
         "PLAY XAXAX://localhost/file.mpg RTSP/1.0\r\nCSeq: 1\r\n\r\n",
         "PLAY rtsp://XAXAX/file.mpg RTSP/1.0\r\nCSeq: 1\r\n\r\n",
         "PLAY rtsp://localhost/XAXAX RTSP/1.0\r\nCSeq: 1\r\n\r\n",
+        "PLAY rtsp://localhost/XAXAX=0 RTSP/1.0\r\nCSeq: 1\r\n\r\n",
+        "PLAY rtsp://localhost/trackID=XAXAX RTSP/1.0\r\nCSeq: 1\r\n\r\n",
+        "PLAY rtsp://XAXAX\@localhost/file.mpg RTSP/1.0\r\nCSeq: 1\r\n\r\n",
+        "PLAY rtsp://XAXAX:pass\@localhost/file.mpg RTSP/1.0\r\nCSeq: 1\r\n\r\n",
+        "PLAY rtsp://user:XAXAX\@localhost/file.mpg RTSP/1.0\r\nCSeq: 1\r\n\r\n",
+        "PLAY rtsp://XAXAX:XAXAX\@localhost/file.mpg RTSP/1.0\r\nCSeq: 1\r\n\r\n",
+        "PLAY rtsp://localhost/file.mpg XAXAX\r\nCSeq: 1\r\n\r\n",
+        "PLAY rtsp://localhost/file.mpg RTSP/XAXAX\r\nCSeq: 1\r\n\r\n",
         "PLAY rtsp://localhost/file.mpg RTSP/1.0\r\nCSeq: 7\r\nContent-length: 3200\r\n\r\nXAXAX\r\n\r\n",
         "PAUSE XAXAX RTSP/1.0\r\nCSeq: 1\r\n\r\n",
         "PAUSE XAXAX://localhost/file.mpg RTSP/1.0\r\nCSeq: 1\r\n\r\n",
@@ -132,7 +154,14 @@ sub getCommandarray {
 
 sub getLogin{
     my $this = shift;
-    @login = ("DESCRIBE rtsp://localhost/media.mp4 RTSP/1.0\r\nCSeq: 1\r\n");
+    @login = (
+              "ANNOUNCE rtsp://localhost/file.mpg RTSP/1.0\r\nCSeq: 1\r\n",
+              "DESCRIBE rtsp://localhost/file.mpg RTSP/1.0\r\nCSeq: 1\r\n",
+              "DESCRIBE rtsp://localhost/file.mpg RTSP/1.0\r\n",
+              "PLAY rtsp://localhost/file.mpg RTSP/1.0\r\nCSeq: 1\r\n",
+              "PAUSE rtsp://localhost/file.mpg RTSP/1.0\r\nCSeq: 1\r\n",
+              "SETUP rtsp://localhost/file.mpg RTSP/1.0\r\nCSeq: 1\r\n",
+             );
     return(@login);
 }
 
