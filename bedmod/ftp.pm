@@ -6,6 +6,7 @@ use Socket;
 
 sub new {
     my $this = {};
+    $this->{'healthy'}    = undef;
     $this->{username}     = 'anonymous'; # specific for just this
     $this->{password}     = 'user@this.bed'; # module
     bless $this;
@@ -29,6 +30,7 @@ sub init {
 
     # let's see if we got a correct login (skip if dump mode is set)
     if ($special_cfg{'d'}) { return; }
+    die "FTP server failed health check!\n" unless($this->health_check());
     $iaddr = inet_aton($this->{target})             || die "Unknown host: $this->{target}\n";
     $paddr = sockaddr_in($this->{port}, $iaddr)     || die "getprotobyname: $!\n";
     $proto = getprotobyname('tcp')                  || die "getprotobyname: $!\n";
@@ -49,6 +51,25 @@ sub init {
       } until ( $recvbuf =~ "230" );
     send(SOCKET, "QUIT\r\n", 0);
     close(SOCKET);
+}
+
+sub health_check {
+    my $this = shift;
+    $iaddr = inet_aton($this->{target})             || die "Unknown host: $this->{target}\n";
+    $paddr = sockaddr_in($this->{port}, $iaddr)     || die "getprotobyname: $!\n";
+    $proto = getprotobyname('tcp')                  || die "getprotobyname: $!\n";
+    socket(SOCKET, PF_INET, SOCK_STREAM, $proto)    || die "socket: $!\n";
+    connect(SOCKET, $paddr)                         || die "connection attempt failed: $!\n";
+    do { 
+      $recv=<SOCKET>;
+      sleep(0.2);
+    } until $recv =~ /^220/;
+    send(SOCKET, "PASS\r\n", 0);
+    $recv=<SOCKET>;
+    if (!$this->{'healthy'}) {
+        $this->{'healthy'} = $recv if ($recv =~ /^\d\d\d/);
+    }
+    return $recv =~ /^$this->{'healthy'}$/;
 }
 
 sub getQuit {

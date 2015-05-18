@@ -15,7 +15,7 @@ sub init {
     %special_cfg=@_;
 
     $this->{proto}="tcp";
-    $this->{healthy}="HTTP/";
+    $this->{healthy}=undef;
 
     if ($special_cfg{'p'} eq "") {
         $this->{port}='80';
@@ -36,7 +36,13 @@ sub health_check {
     connect(SOCKET, $paddr)                         || die "connection attempt failed: $!\n";
     send(SOCKET, "HEAD / HTTP/1.0\r\n\r\n", 0)      || die "HTTP request failed: $!\n";
     my $resp = <SOCKET>;
-    return $resp =~ m/$this->{healthy}/;
+    if (!$this->{healthy}) {
+          if ($resp =~ /HTTP/) {
+              $this->{healthy}=$resp;
+          }
+          # print "Set healthy: $resp";
+    }
+    return $resp =~ m/^$this->{healthy}$/;
 }
 
 
