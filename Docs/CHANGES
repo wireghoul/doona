@@ -2,6 +2,7 @@
 - Added health check support (-c flag)
 - Added keep trying support (-k flag)
 - Added more fuzz cases (http, rtsp, tftp, proxy)
+- Added more fuzz data
 
 [ 0.9 ]
 - Added NNTP module (from @bcoles)
