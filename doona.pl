@@ -24,9 +24,12 @@ my @modules = map { s!bedmod/(.*)\.pm!$1!; $_ } glob("bedmod/*.pm");
 # the hope is to overwrite a return pointer on the stack,
 # making the server execute invalid code and crash
 my @overflowstrings = (
-    "A" x 33, "A" x 254, "A" x 255, "A" x 256, "A" x 1023, "A" x 1024, "A" x 1044, 
-    "A" x 2047, "A" x 2048, "A" x 2068, "A" x 5000, "A" x 10000, "A" x 15000,
+    "A" x 33, "A" x 254, "A" x 255, "A" x 256, "A" x 257, "A" x 1023, "A" x 1024, "A" x 1025, "A" x 1026,
+    "A" x 1044, "A" x 2047, "A" x 2048, "A" x 2049, "A" x 2068, "A" x 3092, "A" x 4116, "A" x 5140,
+    "A" x 6164, "A" x 7188, "A" x 8212, "A" x 9236, "A" x 10260, "A" x 11284, "A" x 12308, "A" x 13332,
+    "A" x 14356, "A" x 15380,
     "\\" x 200, "\\" x 255, "\\" x 9000, "/" x 200, "/" x 256, "/" x 9000,
+    "A/" x 256, "AA/" x 256, "AAA/" x 256, "AAAA/" x 256,
     "." x 200, "." x 255, "." x 9000, " " x 9000, "AA " x 200,
 );
 my @formatstrings = (
