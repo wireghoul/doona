@@ -36,11 +36,12 @@ sub health_check {
     send(SOCKET, "DESCRIBE / RTSP/1.0\r\n\r\n", 0)      || die "HTTP request failed: $!\n";
     my $resp = <SOCKET>;
     if (!$this->{healthy}) {
-          if ($resp =~ /200/) {
+          if ($resp =~ /RTSP/) {
               $this->{healthy}=$resp;
           }
           #      print "Set healthy: $resp";
     }
+    #print "DBG: Health resp: $resp\n";
     return $resp =~ m/^$this->{healthy}$/;
 }
 
