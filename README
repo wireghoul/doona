@@ -15,7 +15,8 @@
   @Wireghoul
 
 .:: Version ::.
-
+  1.0 - New command line switches, more fuzz data and fuzz cases
+  0.9 - Bugfixes, more fuzz cases and new modules
   0.8 - Bugfixes and more fuzz cases
   0.7 - Multi verb support, more fuzz cases and bug fixes
   0.6 - First official doona release
