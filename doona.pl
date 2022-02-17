@@ -12,6 +12,7 @@ use Config;
 
 #use strict;
 #use warnings;
+use lib ".";
 my $SOCKET;
 my $VERSION = '1.0';
 
